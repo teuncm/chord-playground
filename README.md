@@ -1,8 +1,6 @@
-# Scale Explorer
+# Chord Playground
 
-[Live demo](https://teuncm.github.io/asmr-scale/)
-
-Playground to explore the feeling of musical scales and key changes.
+Playground to explore the feeling of musical chords, scales, inversion and key changes.
 
 ### To do
 
@@ -14,16 +12,13 @@ Buttons
 - [ ] Add up/down strum buttons
 
 Effects
-- [ ] Add compressor
+- [x] Add compressor
 - [ ] Add delay dry/wet
-- [ ] Add reverb dry/wet
-- [ ] Add reverb
-- [ ] Add reverb filter
-- [ ] Add bell filter
+- [x] Add reverb dry/wet
+- [x] Add reverb
+- [x] Add reverb filter
+- [x] Add bell filter
 
 Synth
 - [ ] Make bell stereo
-- [ ] Make bell prettier
-
-Code
-- [ ] Clean up code
+- [x] Make bell prettier
