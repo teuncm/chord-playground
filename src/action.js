@@ -18,5 +18,11 @@ export function actionRandom() {
     bell(freq);
     printMidi(midiNumber);
   }
+}
 
+export function playNote(midiNumber) {
+  const freq = getFreqFromMidiNumber(midiNumber);
+
+  bell(freq);
+  printMidi(midiNumber);
 }

@@ -98,6 +98,11 @@ button {
   box-shadow: 0px 0px 10px white inset;
 }
 
+span.interact {
+  align-items: center;
+  justify-content: center;
+}
+
 .custom-checkbox {
   display: flex;
   flex: 1;

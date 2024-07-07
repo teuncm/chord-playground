@@ -9,6 +9,7 @@ Playground to explore the feeling of musical chords, scales, inversion and key c
 Buttons
 - [ ] Enable key selector
 - [ ] Enable scale selector
+- [ ] Add triggered note highlights
 - [ ] Add tuning selector
 - [ ] Add note count selector
 - [ ] Add up/down strum buttons

@@ -2,7 +2,7 @@
   <div class="container" id="action-container">
     <div class="container-row">
       <!-- <button class="action-button interact" id="action-down" @click="actionDown(id)">Down</button> -->
-      <button class="action-button interact" id="action-random" @click="actionRandom(id)">Try me</button>
+      <button class="action-button interact" id="action-random" @click="actionRandom()">Try me</button>
       <!-- <button class="action-button interact" id="action-up" @click="actionUp(id)">Up</button> -->
     </div>
   </div>
