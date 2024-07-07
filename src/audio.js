@@ -3,6 +3,11 @@ export const MIDI_OFFSET = 69;
 export const NOTES_PER_OCTAVE = 12;
 export const OCTAVE_START = 3;
 export const OCTAVE_END = 8;
+export const OCTAVE_RANGE = OCTAVE_END - OCTAVE_START;
+export const MIDI_START = OCTAVE_START * NOTES_PER_OCTAVE;
+export const MIDI_END = OCTAVE_END * NOTES_PER_OCTAVE + NOTES_PER_OCTAVE;
+export const MIDI_RANGE = MIDI_END - MIDI_START;
+export const DELAY_TIME = 0.3;
 
 import { randFloat } from "./helpers";
 
@@ -25,7 +30,7 @@ export class Audio {
 
       const reverbDry = this.audioCtx.createGain();
       const reverbWet = this.audioCtx.createGain();
-      const convolver = this.createConvReverb(0.06, 10);
+      const convolver = this.createConvReverb(0.1, 5);
 
       reverbDry.gain.setValueAtTime(1, this.now());
       reverbWet.gain.setValueAtTime(0.7, this.now());
@@ -35,16 +40,20 @@ export class Audio {
       convolver.connect(reverbFilter);
       reverbFilter.connect(reverbWet);
 
+      const reverb = this.audioCtx.createGain();
+      reverbDry.connect(reverb);
+      reverbWet.connect(reverb);
+
       /* Filter. */
       const highShelf = this.audioCtx.createBiquadFilter();
       highShelf.type = "highshelf";
-      highShelf.frequency.setValueAtTime(6000, this.now());
-      highShelf.gain.setValueAtTime(-30, this.now());
+      highShelf.frequency.setValueAtTime(5700, this.now());
+      highShelf.gain.setValueAtTime(-36, this.now());
 
       /* Compress. */
       const compressor = this.audioCtx.createDynamicsCompressor();
-      compressor.threshold.setValueAtTime(-20, this.now());
-      compressor.ratio.setValueAtTime(5, this.now());
+      compressor.threshold.setValueAtTime(-25, this.now());
+      compressor.ratio.setValueAtTime(7, this.now());
       compressor.attack.setValueAtTime(0.3, this.now());
       compressor.release.setValueAtTime(0.4, this.now());
 
@@ -52,8 +61,7 @@ export class Audio {
       const shaper = this.audioCtx.createWaveShaper();
       shaper.curve = new Float32Array([-1, 1]);
 
-      reverbDry.connect(highShelf);
-      reverbWet.connect(highShelf);
+      reverb.connect(highShelf);
       highShelf.connect(compressor);
       compressor.connect(shaper);
       shaper.connect(this.out);
@@ -78,7 +86,7 @@ export class Audio {
 
       for (let j = delay*sr; j < c.length; j++) {
         /* Decay amplitude over time. */
-        let amp = ((maxIdx - j) / maxIdx) ** 2;
+        let amp = ((maxIdx - j) / maxIdx) ** 1;
 
         /* Decaying white noise. */
         c[j] = amp * randFloat(-1, 1);
@@ -111,8 +119,8 @@ export function bell(bellFrequency) {
   const delayTime = 0;
   const attackTime = 0.012;
   /* Scale decay inversely based on frequency. */
-  const octaveFactor = Math.log(bellFrequency / 110);
-  const decayTime = 3 * Math.exp(-octaveFactor);
+  const octaveFactor = Math.log(bellFrequency / 55);
+  const decayTime = 3 * Math.exp(-octaveFactor) + 0.3;
 
   /* Calculated params. */
   const curTime = Audio.now();

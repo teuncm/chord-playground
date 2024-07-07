@@ -7,12 +7,12 @@ Playground to explore the feeling of musical chords, scales, inversion and key c
 ### To do
 
 Buttons
-- [ ] Enable key selector
-- [ ] Enable scale selector
-- [ ] Add triggered note highlights
-- [ ] Add tuning selector
-- [ ] Add note count selector
-- [ ] Add up/down strum buttons
+- [x] Enable key selector
+- [x] Enable scale selector
+- [x] Add triggered note highlights
+- [ ] Add tuning control
+- [x] Add up/down strum buttons
+- [ ] Moar action buttons!1!
 
 Effects
 - [x] Add compressor

@@ -1,19 +1,23 @@
 <template>
   <div class="container" id="action-container">
     <div class="container-row">
-      <!-- <button class="action-button interact" id="action-down" @click="actionDown(id)">Down</button> -->
-      <button class="action-button interact" id="action-random" @click="actionRandom()">Try me</button>
-      <!-- <button class="action-button interact" id="action-up" @click="actionUp(id)">Up</button> -->
+      <button class="action-button interact" id="action-down" @click="actionDown()">▼</button>
+      <button class="action-button interact" id="action-random" @click="actionRandom()">■</button>
+      <!-- <button class="action-button interact" id="action-randomize" @click="actionRandomize()">↻</button> -->
+      <button class="action-button interact" id="action-up" @click="actionUp()">▲</button>
     </div>
   </div>
 </template>
 
 <script>
-import { actionRandom } from '../action';
+import { actionDown, actionRandom, actionRandomize, actionUp } from '../action';
 
 export default {
   methods: {
-    actionRandom
+    actionRandom,
+    actionUp,
+    actionDown,
+    actionRandomize
   }
 };
 </script>

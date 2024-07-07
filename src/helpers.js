@@ -1,4 +1,4 @@
-import { MIDI_OFFSET, NOTES_PER_OCTAVE, BASE_FREQ } from "./audio";
+import { MIDI_OFFSET, NOTES_PER_OCTAVE, BASE_FREQ, MIDI_START, MIDI_RANGE } from "./audio";
 
 let key = 0;
 let scale = [0, 3, 7];
@@ -48,6 +48,11 @@ export function getFreqFromMidiNumber(midiNumber) {
 /* Get note name / pitch class. */
 export function getNoteFromMidiNumber(midiNumber) {
   return NOTE_NAME_TABLE[midiNumber % NOTES_PER_OCTAVE];
+}
+
+/* Wrap midi around the grid. */
+export function wrapMidiNumber(midiNumber) {
+  return (midiNumber - MIDI_START) % MIDI_RANGE + MIDI_START;
 }
 
 /* Get note name and octave position. */

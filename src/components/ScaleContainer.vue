@@ -3,8 +3,8 @@
     <div class="container-row">
       <div v-for="n in 12" :key="n" class="container-col">
         <label class="custom-select">
-          <input type="checkbox" :id="'scale-' + (n-1)">
-          <span class="custom-checkbox interact">{{ getNoteFromMidiNumber(n-1) }}</span>
+          <input type="checkbox" :id="'scale-' + (n-1)" :value="(n-1)" v-model="scale">
+          <span class="custom-checkbox interact">+{{ (n-1) }}</span>
         </label>
       </div>
     </div>
@@ -13,10 +13,25 @@
 
 <script>
 import { getNoteFromMidiNumber } from '../helpers';
+import { getScale, setScale } from '../helpers';
 
 export default {
+  data() {
+    return {
+      scale: getScale(),
+    }
+  },
+  watch: {
+    scale: {
+      handler(newValues) {
+        setScale(newValues);
+      },
+    }
+  },
   methods: {
-    getNoteFromMidiNumber
+    getNoteFromMidiNumber,
+    getScale,
+    setScale,
   }
 };
 </script>

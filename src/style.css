@@ -19,13 +19,12 @@ body {
   line-height: 1.5;
   font-weight: 400;
 
-  background-color: #333333;
+  background-color: #272727;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow: hidden;
 }
 
 #app {
@@ -88,7 +87,7 @@ button {
 .custom-radio {
   display: flex;
   flex: 1;
-  height: 40px;
+  height: 50px;
   border-radius: 50%;
   transition: background-color 0.3s;
 }
@@ -106,7 +105,7 @@ span.interact {
 .custom-checkbox {
   display: flex;
   flex: 1;
-  height: 40px;
+  height: 50px;
   transition: background-color 0.3s;
 }
 
@@ -138,16 +137,34 @@ span.interact {
 }
 
 .action-button {
+  font-size: 2em;
   display: flex;
   border-radius: 50%;
   margin: 20px;
   height: 75px;
   justify-content: center;
   align-items: center;
-  transition: box-shadow, background-color 0.7s!important;
+  transition: box-shadow 0.8s, background-color 0.8s!important;
 }
 .action-button:active {
   background-color: white;
   box-shadow: 0px 0px 10px 5px white;
-  transition: box-shadow, background-color 0s!important;
+  transition: box-shadow 0s, background-color 0s!important;
+}
+
+.note {
+  background-color: #1a1a1a;
+  height: 50px;
+  transition: background-color 7s, box-shadow 7s!important;
+}
+.note:active {
+  background-color: #d3970a;
+  box-shadow: 0px 0px 10px white inset;
+  transition: all 0s!important;
+}
+
+.light-up {
+  background-color: #8bc21d;
+  box-shadow: 0px 0px 10px white inset;
+  transition: all 0s!important;
 }
