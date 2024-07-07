@@ -48,13 +48,13 @@ export class Audio {
       const highShelf = this.audioCtx.createBiquadFilter();
       highShelf.type = "highshelf";
       highShelf.frequency.setValueAtTime(5700, this.now());
-      highShelf.gain.setValueAtTime(-36, this.now());
+      highShelf.gain.setValueAtTime(-40, this.now());
 
       /* Compress. */
       const compressor = this.audioCtx.createDynamicsCompressor();
-      compressor.threshold.setValueAtTime(-25, this.now());
-      compressor.ratio.setValueAtTime(7, this.now());
-      compressor.attack.setValueAtTime(0.3, this.now());
+      compressor.threshold.setValueAtTime(-28, this.now());
+      compressor.ratio.setValueAtTime(8, this.now());
+      compressor.attack.setValueAtTime(0.2, this.now());
       compressor.release.setValueAtTime(0.4, this.now());
 
       /* Clip. */
