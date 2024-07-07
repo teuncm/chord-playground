@@ -1,5 +1,7 @@
 # Chord Playground
 
+[Live demo](https://teuncm.github.io/chord-playground/)
+
 Playground to explore the feeling of musical chords, scales, inversion and key changes.
 
 ### To do
