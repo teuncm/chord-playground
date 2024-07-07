@@ -1,0 +1,148 @@
+* {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  box-sizing: border-box;
+  color: rgb(200, 200, 200);
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+
+  line-height: 1.5;
+  font-weight: 400;
+
+  background-color: #333333;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+#app {
+  max-width: 1024px;
+  margin: 0 auto;
+  margin-top: 10px;
+}
+
+.divider {
+  background-color: #1a1a1a;
+  display: flex;
+  flex: 1;
+  margin-left: 40%;
+  margin-right: 40%;
+  height: 1px;
+}
+
+.container {
+  display: flex;
+  flex-flow: column wrap;
+  flex: 1;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+
+.container-row {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+}
+
+.container-col {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  padding: 2px;
+}
+
+button {
+  display: flex;
+  flex: 1;
+
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-select {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+}
+
+.custom-select input {
+  position: absolute;
+  opacity: 0;
+  appearance: none;
+  margin: 0;
+}
+
+.custom-radio {
+  display: flex;
+  flex: 1;
+  height: 40px;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+}
+
+.custom-select input:checked ~ .custom-radio {
+  background-color: #646cff;
+  box-shadow: 0px 0px 10px white inset;
+}
+
+.custom-checkbox {
+  display: flex;
+  flex: 1;
+  height: 40px;
+  transition: background-color 0.3s;
+}
+
+.custom-select input:checked ~ .custom-checkbox {
+  background-color: #646cff;
+  box-shadow: 0px 0px 10px white inset;
+}
+
+.interact {
+  font-size: 1em;
+  font-weight: 500;
+  min-width: 0;
+  width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+
+  cursor: pointer;
+  background-color: #1a1a1a;
+  border: 1px solid transparent;
+  transition: border-color 0.4s;
+}
+.interact:hover {
+  border-color: #646cff;
+  transition: border-color 0s;
+}
+.interact:active {
+  border-color: white;
+  transition: border-color 0s;
+}
+
+.action-button {
+  display: flex;
+  border-radius: 50%;
+  margin: 20px;
+  height: 75px;
+  justify-content: center;
+  align-items: center;
+  transition: box-shadow, background-color 0.7s!important;
+}
+.action-button:active {
+  background-color: white;
+  box-shadow: 0px 0px 10px 5px white;
+  transition: box-shadow, background-color 0s!important;
+}
