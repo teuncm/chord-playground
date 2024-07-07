@@ -47,8 +47,8 @@ export class Audio {
       /* Filter. */
       const highShelf = this.audioCtx.createBiquadFilter();
       highShelf.type = "highshelf";
-      highShelf.frequency.setValueAtTime(5700, this.now());
-      highShelf.gain.setValueAtTime(-40, this.now());
+      highShelf.frequency.setValueAtTime(5500, this.now());
+      highShelf.gain.setValueAtTime(-45, this.now());
 
       /* Compress. */
       const compressor = this.audioCtx.createDynamicsCompressor();
