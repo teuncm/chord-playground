@@ -13,6 +13,7 @@ Buttons
 - [ ] Add tuning control
 - [x] Add up/down strum buttons
 - [ ] Moar action buttons!1!
+- [ ] Add chord lock
 
 Effects
 - [x] Add compressor
@@ -25,3 +26,6 @@ Effects
 Synth
 - [ ] Make bell stereo
 - [x] Make bell prettier
+
+Styling
+- [ ] Make it look better on small screens

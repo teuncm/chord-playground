@@ -3,8 +3,10 @@
     <div class="container-row">
       <div v-for="n in 12" :key="n" class="container-col">
         <label class="custom-select">
-          <input type="checkbox" :id="'scale-' + (n-1)" :value="(n-1)" v-model="scale">
-          <span class="custom-checkbox interact">+{{ (n-1) }}</span>
+          <input :disabled="n == 1" type="checkbox" :id="'scale-' + (n-1)" :value="(n-1)" v-model="scale">
+          <span class="custom-checkbox interact">
+            {{ n == 1 ? '+' : (n-1) }}
+          </span>
         </label>
       </div>
     </div>

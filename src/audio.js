@@ -47,7 +47,7 @@ export class Audio {
       /* Filter. */
       const highShelf = this.audioCtx.createBiquadFilter();
       highShelf.type = "highshelf";
-      highShelf.frequency.setValueAtTime(5500, this.now());
+      highShelf.frequency.setValueAtTime(4500, this.now());
       highShelf.gain.setValueAtTime(-45, this.now());
 
       /* Compress. */
@@ -132,7 +132,7 @@ export function bell(bellFrequency) {
   const decayFrequency = bellFrequency * 1.01
 
   /* Oscillator. */
-  oscillator.type = 'triangle';
+  oscillator.type = 'sawtooth';
   oscillator.frequency.setValueAtTime(bellFrequency, curTime);
   oscillator.frequency.setValueAtTime(delayFrequency, curDelayTime);
   oscillator.frequency.linearRampToValueAtTime(bellFrequency, curAttackTime);

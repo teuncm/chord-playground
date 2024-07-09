@@ -2,7 +2,7 @@ import { bell, OCTAVE_START, OCTAVE_END, NOTES_PER_OCTAVE, OCTAVE_RANGE } from "
 import { randInt, randItem, getScale, getKey, getFreqFromMidiNumber, printMidi, wrapMidiNumber, setKey } from "./helpers"
 
 export const RANDOM_NOTE_COUNT = 6;
-export const ARP_SPEED = 80;
+export const ARP_SPEED = 125;
 
 export function actionRandomize() {
   const key = randInt(0, NOTES_PER_OCTAVE);

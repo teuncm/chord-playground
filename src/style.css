@@ -16,10 +16,12 @@ body {
   width: 100%;
   min-height: 100vh;
 
-  line-height: 1.5;
-  font-weight: 400;
+  font-size: 1em;
+  font-weight: normal;
+  letter-spacing: -1px;
 
-  background-color: #272727;
+  /* background-color: #272727; */
+  background-color: #252525;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -28,25 +30,24 @@ body {
 }
 
 #app {
-  max-width: 1024px;
+  max-width: 800px;
   margin: 0 auto;
-  margin-top: 10px;
 }
 
 .divider {
-  background-color: #1a1a1a;
+  background-color: #121212;
   display: flex;
   flex: 1;
-  margin-left: 40%;
-  margin-right: 40%;
+  margin-left: 35%;
+  margin-right: 35%;
   height: 1px;
 }
 
 .container {
   display: flex;
-  flex-flow: column wrap;
+  flex-direction: column;
   flex: 1;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   justify-content: center;
 }
 
@@ -60,7 +61,6 @@ body {
   display: flex;
   flex: 1;
   justify-content: center;
-  padding: 2px;
 }
 
 button {
@@ -84,19 +84,6 @@ button {
   margin: 0;
 }
 
-.custom-radio {
-  display: flex;
-  flex: 1;
-  height: 50px;
-  border-radius: 50%;
-  transition: background-color 0.3s;
-}
-
-.custom-select input:checked ~ .custom-radio {
-  background-color: #646cff;
-  box-shadow: 0px 0px 10px white inset;
-}
-
 span.interact {
   align-items: center;
   justify-content: center;
@@ -106,26 +93,31 @@ span.interact {
   display: flex;
   flex: 1;
   height: 50px;
-  transition: background-color 0.3s;
+  transition: border-color 0.4s, background-color 0.7s;
 }
 
 .custom-select input:checked ~ .custom-checkbox {
   background-color: #646cff;
-  box-shadow: 0px 0px 10px white inset;
+}
+
+.custom-select input:disabled ~ .custom-checkbox {
+  background-color: #000000;
+  border: transparent;
 }
 
 .interact {
-  font-size: 1em;
-  font-weight: 500;
+  border-radius: 4px;
   min-width: 0;
   width: 0;
   white-space: nowrap;
   overflow: hidden;
+  margin: 1px;
+  opacity: 1;
 
   cursor: pointer;
-  background-color: #1a1a1a;
+  /* background-color: #1a1a1a; */
+  background-color: #121212;
   border: 1px solid transparent;
-  transition: border-color 0.4s;
 }
 .interact:hover {
   border-color: #646cff;
@@ -141,7 +133,7 @@ span.interact {
   display: flex;
   border-radius: 50%;
   margin: 20px;
-  height: 75px;
+  height: 50px;
   justify-content: center;
   align-items: center;
   transition: box-shadow 0.8s, background-color 0.8s!important;
@@ -153,18 +145,22 @@ span.interact {
 }
 
 .note {
-  background-color: #1a1a1a;
   height: 50px;
   transition: background-color 7s, box-shadow 7s!important;
 }
+.note:hover {
+  transition: border-color 0s;
+}
 .note:active {
   background-color: #d3970a;
-  box-shadow: 0px 0px 10px white inset;
   transition: all 0s!important;
 }
 
 .light-up {
   background-color: #8bc21d;
-  box-shadow: 0px 0px 10px white inset;
   transition: all 0s!important;
+}
+
+.highlight-shadow {
+  box-shadow: 0px 0px 10px white inset;
 }
