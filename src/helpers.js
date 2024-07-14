@@ -62,13 +62,21 @@ export function getFreqFromMidiNumber(midiNumber) {
 }
 
 /* Get note symbol / pitch class symbol. */
-export function getNoteFromMidiNumber(midiNumber) {
+export function getNoteSymbol(midiNumber) {
   return NOTE_NAME_TABLE[midiNumber % NOTES_PER_OCTAVE];
+}
+
+export function getNoteIndices() {
+  return Object.keys(NOTE_NAME_TABLE);
 }
 
 /* Get shift symbol. */
 export function getShiftSymbol(offset) {
   return NOTE_OFFSET_NAME_TABLE[offset];
+}
+
+export function getShiftIndices() {
+  return Object.keys(NOTE_OFFSET_NAME_TABLE);
 }
 
 /* Wrap midi around the grid. */
@@ -78,7 +86,7 @@ export function wrapMidiNumber(midiNumber) {
 
 /* Get note name and octave position. */
 export function getFullNoteName(midiNumber) {
-  return getNoteFromMidiNumber(midiNumber) + getOctaveFromMidiNumber(midiNumber);
+  return getNoteSymbol(midiNumber) + getOctaveFromMidiNumber(midiNumber);
 }
 
 /* Draw random integer. */

@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { getNoteFromMidiNumber } from '../helpers';
+import { getNoteSymbol } from '../helpers';
 import { getKey, setKey } from '../helpers';
 
 export default {
@@ -26,7 +26,7 @@ export default {
       setKey(key);
     },
 
-    getNoteFromMidiNumber,
+    getNoteFromMidiNumber: getNoteSymbol,
   }
 };
 </script>

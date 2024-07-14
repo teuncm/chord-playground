@@ -1,14 +1,26 @@
-<script setup lang="ts">
-import { getShiftSymbol } from '../helpers';
+<script>
+import { getShiftSymbol, getShiftIndices } from '../helpers';
+
+export default {
+  data() {
+    return {
+      
+    };
+  },
+  methods: {
+    getShiftIndices,
+    getShiftSymbol,
+  }
+}
 </script>
 
 <template>
-  <div class="container" id="chord-container">
+  <div class="container" id="shift-container">
     <div class="container-row">
-      <div v-for="n in 12" :key="n" class="container-col">
+      <div v-for="idx in getShiftIndices()" :key="idx" class="container-col">
         <label class="custom-select">
-          <input type="radio" @change="changeKey(n-1)" :id="'key-' + (n-1)" name="key" :value="(n-1)" v-model="key">
-          <span class="custom-checkbox interact">{{ getShiftSymbol(n-1) }}</span>
+          <input type="radio" :id="'shift-' + idx" name="shift" :value="idx">
+          <span class="custom-select-label interact">{{ getShiftSymbol(idx) }}</span>
         </label>
       </div>
     </div>

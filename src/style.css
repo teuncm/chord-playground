@@ -4,10 +4,13 @@
     url(assets/BravuraText.woff2) format('woff2');
   font-weight: normal;
   font-style: normal;
+  /* Render only accidentals. */
+  unicode-range: U+2500-FFFF;
 }
 
 * {
   font-family: 'Bravura', monospace, sans-serif;
+  vertical-align: center;
   color: rgb(200, 200, 200);
 
   box-sizing: border-box;
@@ -85,39 +88,28 @@ button {
 .custom-select {
   display: flex;
   flex: 1;
-  justify-content: center;
 }
 
 .custom-select input {
   position: absolute;
   opacity: 0;
   appearance: none;
-  margin: 0;
 }
 
-span.interact {
-  align-items: center;
-  justify-content: center;
-}
-
-.custom-checkbox {
+.custom-select-label {
   display: flex;
   flex: 1;
   height: 50px;
   transition: border-color 0.4s, background-color 0.7s;
 }
 
-.custom-select input:checked ~ .custom-checkbox {
+.custom-select input:checked ~ .custom-select-label {
   background-color: #646cff;
 }
 
-.custom-select input:disabled ~ .custom-checkbox {
-  background-color: transparent;
-  border: transparent;
-  cursor: default;
-}
-
 .interact {
+  align-items: center;
+  justify-content: center;
   border-radius: 6px;
   min-width: 0;
   width: 0;

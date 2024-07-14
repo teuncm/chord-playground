@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { getNoteFromMidiNumber } from '../helpers';
+import { getNoteSymbol } from '../helpers';
 import { getScale, setScale } from '../helpers';
 
 export default {
@@ -31,7 +31,7 @@ export default {
     }
   },
   methods: {
-    getNoteFromMidiNumber,
+    getNoteFromMidiNumber: getNoteSymbol,
     getScale,
     setScale,
   }

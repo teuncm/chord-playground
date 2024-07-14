@@ -1,37 +1,27 @@
+<script>
+import { getNoteSymbol, getNoteIndices } from '../helpers';
+import { getScale, setScale } from '../helpers';
+
+export default {
+  methods: {
+    getNoteIndices,
+    getNoteSymbol,
+    getScale,
+    setScale,
+  }
+};
+</script>
+
 <template>
   <div class="container" id="chord-container">
     <div class="container-row">
-      <div v-for="n in 12" :key="n" class="container-col">
+      <div v-for="idx in getNoteIndices()" :key="idx" class="container-col">
         <label class="custom-select">
-          <input type="checkbox" @change="changeKey(n-1)" :id="'key-' + (n-1)" name="key" :value="(n-1)" v-model="key">
-          <span class="custom-checkbox interact">{{ getNoteFromMidiNumber(n-1) }}</span>
+          <input type="checkbox" :id="'chord-' + idx" name="chord" :value="idx" />
+          <span class="custom-select-label interact">{{ getNoteSymbol(idx) }}</span>
         </label>
       </div>
     </div>
   </div>
 </template>
 
-<script>
-import { getNoteFromMidiNumber } from '../helpers';
-import { getScale, setScale } from '../helpers';
-
-export default {
-  data() {
-    return {
-      scale: getScale(),
-    }
-  },
-  watch: {
-    scale: {
-      handler(newValues) {
-        setScale(newValues);
-      },
-    }
-  },
-  methods: {
-    getNoteFromMidiNumber,
-    getScale,
-    setScale,
-  }
-};
-</script>
