@@ -103,8 +103,12 @@ export function randFloat(randMin, randMax) {
   return Math.random() * randRange + randMin;
 }
 
-/* Draw random list item. */
+/* Draw random list item, or null if list is empty. */
 export function randItem(itemList) {
+  if (itemList == []) {
+    return null;
+  }
+
   const randIdx = randInt(0, itemList.length);
 
   return itemList[randIdx];

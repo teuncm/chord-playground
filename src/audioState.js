@@ -26,11 +26,17 @@ export class Audio {
   }
 }
 
+/* Action settings. */
+export const RANDOM_NOTE_COUNT = 6;
+export const ARP_SPEED = 125;
+
+/* Synth settings. */
+
 export const DEFAULT_BASE_TUNING = 440;
 
 export const DEFAULT_TUNING_OFFSET = 0;
 
-export const DEFAULT_CHORD = [0, 5, 9];
+export const DEFAULT_CHORD = [0, 4, 7];
 export const DEFAULT_CHORD_ROOT = 0;
 export const DEFAULT_CHORD_SHIFT = 0;
 

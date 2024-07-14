@@ -87,16 +87,13 @@ body {
   appearance: none;
 }
 
-.custom-select-label {
-  display: flex;
-  flex: 1;
-}
-
 .custom-select input:checked ~ .custom-select-label {
   background-color: #646cff;
 }
 
 .interact {
+  display: flex;
+  flex: 1;
   align-items: center;
   justify-content: center;
   border-radius: 4px;
@@ -110,7 +107,7 @@ body {
   cursor: pointer;
   background-color: rgb(21, 21, 21);
   border: 1px solid transparent;
-  transition: border-color 0.4s, background-color 0.7s;
+  transition: border-color 0.5s, background-color 0.5s;
 }
 .interact:hover {
   border-color: #646cff;
@@ -156,4 +153,8 @@ body {
 
 .highlight-shadow {
   box-shadow: 0px 0px 10px white inset;
+}
+
+.chordroot {
+  background-color: #d3970a!important;
 }

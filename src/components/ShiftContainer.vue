@@ -1,5 +1,5 @@
 <script>
-import { reactive, computed } from 'vue';
+import { computed } from 'vue';
 import { getShiftSymbol, getShiftIndices } from '../helpers';
 import { synthState } from '../stores/store';
 
@@ -8,7 +8,7 @@ export default {
     const chordShift = computed({
       get: () => synthState.chordShift,
       set: (value) => {
-        synthState.chordShift = value;
+        synthState.chordShift = parseInt(value);
       }
     });
 

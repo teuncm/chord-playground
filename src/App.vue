@@ -1,16 +1,11 @@
 <template>
-  <!-- <ActionContainer />
-  <Divider />
-  <KeyContainer />
-  <Divider />
-  <ScaleContainer />
-  <Divider />
-  <NoteContainer /> -->
+  <ActionContainer />
   <Divider />
   <ChordContainer />
   <Divider />
   <ShiftContainer />
   <Divider />
+  <NoteContainer />
 </template>
 
 <script>
@@ -36,8 +31,10 @@ export default {
   components:
   {
     Divider,
+    ActionContainer,
     ChordContainer,
     ShiftContainer,
+    NoteContainer
   },
 };
 </script>
