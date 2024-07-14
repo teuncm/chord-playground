@@ -7,7 +7,7 @@ export const ARP_SPEED = 125;
 
 /* Randomize the playground parameters. */
 export function actionRandomize() {
-  let chordShift = randInt(0, NOTES_PER_OCTAVE);
+  let chordShift = 0;
 
   let chord = [];
   for (let i = 0; i < 3; i++) {

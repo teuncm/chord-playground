@@ -1,5 +1,3 @@
-import { defineStore } from 'pinia';
-
 export class Audio {
   audioCtx;
   synthOut;
@@ -31,7 +29,7 @@ export const RANDOM_NOTE_COUNT = 6;
 export const ARP_SPEED = 125;
 
 /* Synth settings. */
-
+export const MIDI_OFFSET = 69;
 export const DEFAULT_BASE_TUNING = 440;
 
 export const DEFAULT_TUNING_OFFSET = 0;

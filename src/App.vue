@@ -6,6 +6,8 @@
   <ShiftContainer />
   <Divider />
   <NoteContainer />
+  <Divider />
+  <TuningContainer />
 </template>
 
 <script>
@@ -14,6 +16,7 @@ import NoteContainer from './components/NoteContainer.vue';
 import Divider from './components/Divider.vue';
 import ChordContainer from './components/ChordContainer.vue';
 import ShiftContainer from './components/ShiftContainer.vue';
+import TuningContainer from './components/TuningContainer.vue';
 
 export default {
   name: 'App',
@@ -23,7 +26,8 @@ export default {
     ActionContainer,
     ChordContainer,
     ShiftContainer,
-    NoteContainer
+    NoteContainer,
+    TuningContainer,
   },
 };
 </script>
