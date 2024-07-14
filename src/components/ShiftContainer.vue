@@ -1,16 +1,25 @@
 <script>
+import { reactive, computed } from 'vue';
 import { getShiftSymbol, getShiftIndices } from '../helpers';
+import { synthState } from '../stores/store';
 
 export default {
-  data() {
+  setup() {
+    const chordShift = computed({
+      get: () => synthState.chordShift,
+      set: (value) => {
+        synthState.chordShift = value;
+      }
+    });
+
     return {
-      
+      chordShift,
     };
   },
   methods: {
     getShiftIndices,
     getShiftSymbol,
-  }
+  },
 }
 </script>
 
@@ -19,7 +28,7 @@ export default {
     <div class="container-row">
       <div v-for="idx in getShiftIndices()" :key="idx" class="container-col">
         <label class="custom-select">
-          <input type="radio" :id="'shift-' + idx" name="shift" :value="idx">
+          <input v-model="chordShift" type="radio" :id="'shift-' + idx" name="shift" :value="idx" >
           <span class="custom-select-label interact">{{ getShiftSymbol(idx) }}</span>
         </label>
       </div>

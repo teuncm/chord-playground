@@ -35,7 +35,6 @@ export default {
 
   components:
   {
-    Test,
     Divider,
     ChordContainer,
     ShiftContainer,

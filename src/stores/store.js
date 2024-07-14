@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
-import { Audio } from '../audioState';
+import { Audio, SynthState } from '../audioState';
+import { reactive } from 'vue';
 
 export const useAudioStore = defineStore('audio', {
   state: () => ({
@@ -17,3 +18,14 @@ export const useAudioStore = defineStore('audio', {
     }
   }
 });
+
+// export const useSynthStore = defineStore('synth', {
+//   state: () => ({
+//     synthState: SynthState
+//   }),
+//   actions: {
+
+//   }
+// });
+
+export const synthState = reactive(new SynthState());
