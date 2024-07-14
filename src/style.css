@@ -11,7 +11,7 @@
 
 * {
   font-family: 'Bravura', monospace, sans-serif;
-  color: rgb(220, 220, 220);
+  color: rgb(219, 219, 219);
 
   box-sizing: border-box;
   
@@ -33,7 +33,7 @@ body {
   font-weight: normal;
   letter-spacing: -1px;
 
-  background-color: rgb(48, 48, 48);
+  background-color: rgb(49, 49, 49);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -53,8 +53,8 @@ body {
   margin-left: 35%;
   margin-right: 35%;
   height: 1px;
-  margin-top: 2vh;
-  margin-bottom: 2vh;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
 }
 
 .container {
@@ -102,10 +102,10 @@ body {
   white-space: nowrap;
   overflow: hidden;
   margin: 1px;
-  height: 50px;
+  height: 40px;
 
   cursor: pointer;
-  background-color: rgb(21, 21, 21);
+  background-color: rgb(20, 20, 20);
   border: 1px solid transparent;
   transition: border-color 0.5s, background-color 0.5s;
 }
@@ -123,7 +123,7 @@ body {
   display: flex;
   border-radius: 50%;
   margin: 20px;
-  height: 50px;
+  height: 60px;
   justify-content: center;
   align-items: center;
   transition: box-shadow 0.8s, background-color 0.8s!important;
@@ -135,7 +135,7 @@ body {
 }
 
 .note {
-  height: 50px;
+  /* height: 50px; */
   transition: background-color 7s, box-shadow 7s!important;
 }
 .note:hover {
