@@ -17,14 +17,6 @@ import ShiftContainer from './components/ShiftContainer.vue';
 
 export default {
   name: 'App',
-  // components: {
-  //   ActionContainer,
-  //   KeyContainer,
-  //   ScaleContainer,
-  //   NoteContainer,
-  //   Divider,
-  // },
-
   components:
   {
     Divider,
