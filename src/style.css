@@ -9,6 +9,13 @@
   unicode-range: U+2669-266F;
 }
 
+:root {
+  --border-highlight-color: #646cff;
+  --root-note-color: #d3970a;
+  --activated-note-color: #8bc21d;
+  --interact-color: rgb(20, 20, 20);
+}
+
 * {
   font-family: 'Bravura', monospace, sans-serif;
   color: rgb(219, 219, 219);
@@ -47,7 +54,7 @@ body {
 }
 
 .divider {
-  background-color: #121212;
+  background-color: var(--interact-color);
   display: flex;
   flex: 1;
   margin-left: 35%;
@@ -88,7 +95,7 @@ body {
 }
 
 .custom-select input:checked ~ .custom-select-label {
-  background-color: #646cff;
+  background-color: var(--border-highlight-color);
 }
 
 .interact {
@@ -105,12 +112,12 @@ body {
   height: 40px;
 
   cursor: pointer;
-  background-color: rgb(20, 20, 20);
+  background-color: var(--interact-color);
   border: 1px solid transparent;
   transition: border-color 0.5s, background-color 0.5s;
 }
 .interact:hover {
-  border-color: #646cff;
+  border-color: var(--border-highlight-color);
   transition: border-color 0s;
 }
 .interact:active {
@@ -142,15 +149,15 @@ body {
   transition: border-color 0s;
 }
 .note:active {
-  background-color: #d3970a;
+  background-color: var(--root-note-color);
   transition: all 0s!important;
 }
 
 .light-up {
-  background-color: #8bc21d;
-  transition: all 0s!important;
+  background-color: var(--activated-note-color);
+  transition: all 0s !important;
 }
 
 .chordroot {
-  background-color: #d3970a!important;
+  background-color: var(--root-note-color) !important;
 }
