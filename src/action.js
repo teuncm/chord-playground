@@ -1,5 +1,5 @@
-import { bell, OCTAVE_START, OCTAVE_END, NOTES_PER_OCTAVE, OCTAVE_RANGE } from "./audio";
-import { randInt, randItem, getScale, getKey, getFreqFromMidiNumber, printMidi, wrapMidiNumber, setKey } from "./helpers"
+import { OCTAVE_START, OCTAVE_END, NOTES_PER_OCTAVE, OCTAVE_RANGE } from "./synthState";
+import { randInt, randItem, getFreqFromMidiNumber, wrapMidiNumber } from "./helpers"
 import { synthState } from "./stores/store";
 
 export const RANDOM_NOTE_COUNT = 6;

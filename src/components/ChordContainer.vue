@@ -1,5 +1,5 @@
 <script>
-import { getNoteSymbol, getNoteIndices, randFloat, randItem } from '../helpers';
+import { getNoteSymbol, getNoteIndices, randItem } from '../helpers';
 import { synthState } from '../stores/store';
 import { computed } from 'vue';
 

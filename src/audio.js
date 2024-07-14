@@ -1,12 +1,3 @@
-export const BASE_FREQ = 440;
-export const MIDI_OFFSET = 69;
-export const NOTES_PER_OCTAVE = 12;
-export const OCTAVE_START = 3;
-export const OCTAVE_END = 8;
-export const OCTAVE_RANGE = OCTAVE_END - OCTAVE_START;
-export const MIDI_START = OCTAVE_START * NOTES_PER_OCTAVE;
-export const MIDI_END = OCTAVE_END * NOTES_PER_OCTAVE + NOTES_PER_OCTAVE;
-export const MIDI_RANGE = MIDI_END - MIDI_START;
 export const DELAY_TIME = 0.3;
 
 import { randFloat } from "./helpers";
