@@ -5,12 +5,11 @@
   font-weight: normal;
   font-style: normal;
   /* Render only accidentals. */
-  unicode-range: U+2500-FFFF;
+  unicode-range: U+266D-266F;
 }
 
 * {
   font-family: 'Bravura', monospace, sans-serif;
-  vertical-align: center;
   color: rgb(200, 200, 200);
 
   box-sizing: border-box;

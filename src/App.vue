@@ -6,8 +6,11 @@
   <ScaleContainer />
   <Divider />
   <NoteContainer /> -->
+  <Divider />
   <ChordContainer />
+  <Divider />
   <ShiftContainer />
+  <Divider />
 </template>
 
 <script>
@@ -33,6 +36,7 @@ export default {
   components:
   {
     Test,
+    Divider,
     ChordContainer,
     ShiftContainer,
   },
