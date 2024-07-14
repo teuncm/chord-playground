@@ -3,20 +3,36 @@ import { MIDI_OFFSET, NOTES_PER_OCTAVE, BASE_FREQ, MIDI_START, MIDI_RANGE } from
 let key = 0;
 let scale = [0, 3, 7];
 
-/* Table of standard note names using flats. */
+/* Table of standard note names using sharps. */
 export const NOTE_NAME_TABLE = {
   0: "C",
-  1: "C#",
+  1: "C♯",
   2: "D",
-  3: "D#",
+  3: "D♯",
   4: "E",
   5: "F",
-  6: "F#",
+  6: "F♯",
   7: "G",
-  8: "G#",
+  8: "G♯",
   9: "A",
-  10: "A#",
+  10: "A♯",
   11: "B"
+};
+
+/* Table of offsets in semitones using accidentals and numbers. */
+export const NOTE_OFFSET_NAME_TABLE = {
+  0: "♮",
+  1: "♯",
+  2: "♯♯",
+  3: "+3",
+  4: "+4",
+  5: "+5",
+  6: "±6",
+  7: "-5",
+  8: "-4",
+  9: "-3",
+  10: "♭♭",
+  11: "♭"
 };
 
 export function getKey() {

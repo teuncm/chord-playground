@@ -68,6 +68,7 @@ export class Audio {
     }
   }
 
+  /* Generate reverb buffer and assign it to the convolver. */
   static createConvReverb(delay, duration) {
     const convolver = this.audioCtx.createConvolver();
     
@@ -100,6 +101,7 @@ export class Audio {
     return convolver;
   }
 
+  /* Return current audio context timestamp. */
   static now() {
     return Audio.audioCtx.currentTime;
   }
@@ -117,10 +119,12 @@ export function bell(bellFrequency) {
   /* Control params. */
   const volume = 0.1;
   const delayTime = 0;
-  const attackTime = 0.012;
+  // const attackTime = 0.012;
+  const attackTime = 0;
   /* Scale decay inversely based on frequency. */
-  const octaveFactor = Math.log(bellFrequency / 55);
-  const decayTime = 3 * Math.exp(-octaveFactor) + 0.3;
+  const octaveFactor = Math.log(bellFrequency / 27.5);
+  const decayTime = 3 * Math.exp(-octaveFactor) + 0.4;
+  // const decayTime = 1;
 
   /* Calculated params. */
   const curTime = Audio.now();
@@ -134,9 +138,9 @@ export function bell(bellFrequency) {
   /* Oscillator. */
   oscillator.type = 'sawtooth';
   oscillator.frequency.setValueAtTime(bellFrequency, curTime);
-  oscillator.frequency.setValueAtTime(delayFrequency, curDelayTime);
-  oscillator.frequency.linearRampToValueAtTime(bellFrequency, curAttackTime);
-  oscillator.frequency.linearRampToValueAtTime(decayFrequency, curDecayTime);
+  // oscillator.frequency.setValueAtTime(delayFrequency, curDelayTime);
+  // oscillator.frequency.linearRampToValueAtTime(bellFrequency, curAttackTime);
+  // oscillator.frequency.linearRampToValueAtTime(decayFrequency, curDecayTime);
 
   /* Volume envelope. */
   gainNode.gain.setValueAtTime(0, curTime);

@@ -12,8 +12,8 @@ Buttons
 - [x] Add triggered note highlights
 - [ ] Add tuning control
 - [x] Add up/down strum buttons
-- [ ] Moar action buttons!1!
 - [ ] Add chord lock
+- [ ] Invert chord selection: use accidentals instead
 
 Effects
 - [x] Add compressor
