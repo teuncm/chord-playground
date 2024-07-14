@@ -4,8 +4,9 @@
     url(assets/BravuraText.woff2) format('woff2');
   font-weight: normal;
   font-style: normal;
-  /* Render only accidentals. */
-  unicode-range: U+266D-266F;
+  /* Render only musical symbols:
+  https://en.wikipedia.org/wiki/Miscellaneous_Symbols */
+  unicode-range: U+2669-266F;
 }
 
 * {
@@ -28,9 +29,8 @@ body {
   width: 100%;
   min-height: 100vh;
 
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   font-weight: normal;
-  letter-spacing: 0px;
 
   background-color: rgb(48, 48, 48);
 
@@ -75,15 +75,6 @@ body {
   justify-content: center;
 }
 
-button {
-  display: flex;
-  flex: 1;
-  background: black;
-
-  justify-content: center;
-  align-items: center;
-}
-
 .custom-select {
   display: flex;
   flex: 1;
@@ -98,8 +89,6 @@ button {
 .custom-select-label {
   display: flex;
   flex: 1;
-  height: 50px;
-  transition: border-color 0.4s, background-color 0.7s;
 }
 
 .custom-select input:checked ~ .custom-select-label {
@@ -115,13 +104,13 @@ button {
   white-space: nowrap;
   overflow: hidden;
   margin: 1px;
+  height: 50px;
   opacity: 1;
 
   cursor: pointer;
-  /* background-color: #1a1a1a; */
-  /* background-color: #121212; */
   background-color: rgb(21, 21, 21);
   border: 1px solid transparent;
+  transition: border-color 0.4s, background-color 0.7s;
 }
 .interact:hover {
   border-color: #646cff;
