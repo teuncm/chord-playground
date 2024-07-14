@@ -6,9 +6,8 @@
   <ScaleContainer />
   <Divider />
   <NoteContainer /> -->
-  <Test />
-
-  <Test />
+  <ChordContainer />
+  <ShiftContainer />
 </template>
 
 <script>
@@ -18,6 +17,8 @@ import ScaleContainer from './components/ScaleContainer.vue';
 import NoteContainer from './components/NoteContainer.vue';
 import Divider from './components/Divider.vue';
 import Test from './components/Test.vue';
+import ChordContainer from './components/ChordContainer.vue';
+import ShiftContainer from './components/ShiftContainer.vue';
 
 export default {
   name: 'App',
@@ -32,6 +33,8 @@ export default {
   components:
   {
     Test,
+    ChordContainer,
+    ShiftContainer,
   },
 };
 </script>

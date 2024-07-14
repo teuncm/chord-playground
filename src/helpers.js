@@ -61,9 +61,14 @@ export function getFreqFromMidiNumber(midiNumber) {
   return BASE_FREQ * 2 ** ((midiNumber - MIDI_OFFSET) / NOTES_PER_OCTAVE);
 }
 
-/* Get note name / pitch class. */
+/* Get note symbol / pitch class symbol. */
 export function getNoteFromMidiNumber(midiNumber) {
   return NOTE_NAME_TABLE[midiNumber % NOTES_PER_OCTAVE];
+}
+
+/* Get shift symbol. */
+export function getShiftSymbol(offset) {
+  return NOTE_OFFSET_NAME_TABLE[offset];
 }
 
 /* Wrap midi around the grid. */
