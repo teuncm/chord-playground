@@ -10,6 +10,8 @@
 }
 
 :root {
+  --font-color: rgb(219, 219, 219);
+  --background-color: rgb(49, 49, 49);
   --border-highlight-color: #646cff;
   --root-note-color: #d3970a;
   --activated-note-color: #8bc21d;
@@ -18,7 +20,7 @@
 
 * {
   font-family: 'Bravura', monospace, sans-serif;
-  color: rgb(219, 219, 219);
+  color: var(--font-color);
 
   box-sizing: border-box;
   
@@ -40,7 +42,7 @@ body {
   font-weight: normal;
   letter-spacing: -1px;
 
-  background-color: rgb(49, 49, 49);
+  background-color: var(--background-color);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
