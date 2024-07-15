@@ -1,8 +1,6 @@
-export const DELAY_TIME = 0.3;
-
 import { randFloat } from "./helpers";
 
-export class Audio {
+export class AudioState {
   static audioCtx = null;
   static synthOut = null;
   static out = null;
@@ -94,18 +92,18 @@ export class Audio {
 
   /* Return current audio context timestamp. */
   static now() {
-    return Audio.audioCtx.currentTime;
+    return AudioState.audioCtx.currentTime;
   }
 }
 
 export function bell(bellFrequency) {
-  Audio.ensureAudioCtx();
+  AudioState.ensureAudioCtx();
 
-  const oscillator = Audio.audioCtx.createOscillator();
-  const gainNode = Audio.audioCtx.createGain();
+  const oscillator = AudioState.audioCtx.createOscillator();
+  const gainNode = AudioState.audioCtx.createGain();
 
   oscillator.connect(gainNode);
-  gainNode.connect(Audio.synthOut);
+  gainNode.connect(AudioState.synthOut);
 
   /* Control params. */
   const volume = 0.1;
@@ -118,7 +116,7 @@ export function bell(bellFrequency) {
   // const decayTime = 1;
 
   /* Calculated params. */
-  const curTime = Audio.now();
+  const curTime = AudioState.now();
   const curDelayTime = curTime + delayTime
   const curAttackTime = curDelayTime + attackTime;
   const curDecayTime = curAttackTime + decayTime;

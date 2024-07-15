@@ -1,6 +1,8 @@
-import { OCTAVE_START, OCTAVE_END, NOTES_PER_OCTAVE, OCTAVE_RANGE } from "./synthState";
+import { OCTAVE_START, OCTAVE_END, NOTES_PER_OCTAVE, OCTAVE_RANGE } from "./constants";
 import { randInt, randItem, getFreqFromMidiNumber, wrapMidiNumber } from "./helpers"
 import { synthState } from "./stores/store";
+
+import * as Tone from 'tone'
 
 export const RANDOM_NOTE_COUNT = 6;
 export const ARP_SPEED = 125;
@@ -16,7 +18,7 @@ export function actionRandomize() {
   chord = [...new Set(chord)].toSorted();
 
   let chordRoot = randItem(chord);
-  
+
   synthState.chordShift = chordShift;
   synthState.chord = chord;
   synthState.chordRoot = chordRoot;
@@ -56,7 +58,7 @@ export function actionUp() {
   for (let i = 0; i < OCTAVE_RANGE + 1; i++) {
     const octaveOffset = i + OCTAVE_START;
 
-    for(let j = 0; j < scale.length; j++) {
+    for (let j = 0; j < scale.length; j++) {
       const noteOffset = scale[j];
       const key = getKey();
       const midiNumber = wrapMidiNumber(octaveOffset * NOTES_PER_OCTAVE + key + noteOffset);
@@ -87,7 +89,7 @@ export function actionDown() {
   for (let i = 0; i < OCTAVE_RANGE + 1; i++) {
     const octaveOffset = i + OCTAVE_START;
 
-    for(let j = 0; j < scale.length; j++) {
+    for (let j = 0; j < scale.length; j++) {
       const noteOffset = scale[j];
       const key = getKey();
       const midiNumber = wrapMidiNumber(octaveOffset * NOTES_PER_OCTAVE + key + noteOffset);
@@ -108,13 +110,43 @@ export function actionDown() {
   }
 }
 
+// export function playNote(midiNumber) {
+//   for (let chordNote of synthState.chord) {
+//     const shift = chordNote == synthState.chordRoot ? 0 : synthState.chordShift;
+//     const offsetMidi = midiNumber + (chordNote - synthState.chordRoot) + shift;
+
+//     const freq = getFreqFromMidiNumber(offsetMidi);
+//     bell(freq);
+
+//     if (chordNote == synthState.chordRoot) {
+//       continue;
+//     }
+
+//     const button = document.getElementById("note-" + offsetMidi);
+//     button.classList.add('light-up');
+//     setTimeout(() => {
+//       button.classList.remove('light-up');
+//     }, 100);
+//   }
+// }
+
 export function playNote(midiNumber) {
   for (let chordNote of synthState.chord) {
     const shift = chordNote == synthState.chordRoot ? 0 : synthState.chordShift;
     const offsetMidi = midiNumber + (chordNote - synthState.chordRoot) + shift;
 
-    const freq = getFreqFromMidiNumber(offsetMidi);
-    bell(freq);
+    const freq = synthState.transformMidi(offsetMidi);
+    // bell(freq);
+
+    const synth1 = new Tone.Synth({
+      // oscillator: {
+      //   type: "default",
+      //   count: 3,
+      //   spread: 20
+      // }
+    }).toDestination();
+
+    synth1.triggerAttackRelease(freq, 0.01);
 
     if (chordNote == synthState.chordRoot) {
       continue;

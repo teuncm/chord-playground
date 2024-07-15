@@ -9,7 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "lodash": "^4.17.21",
     "normalize.css": "^8.0.1",
+    "tone": "^15.0.4",
     "vue": "^3.4.29"
   },
   "devDependencies": {

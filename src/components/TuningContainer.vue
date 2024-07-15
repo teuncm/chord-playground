@@ -23,7 +23,7 @@ export default {
     <div class="container-row">
       <input class="slider" type="range" v-model="tuningOffset" min="-50" max="50" step="1" list="my-detents" />
     </div>
-    <div class="container-row">
+    <div class="container-row detents">
     <datalist id="my-detents">
       <!-- <option value="-50" label="-50ct"></option> -->
       <option value="0" label="0ct"></option>
@@ -44,5 +44,6 @@ input[type="range"] {
   width: 0px;
   display: flex;
   flex: 1;
+  font-size: 0px;
 }
 </style>
