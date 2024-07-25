@@ -1,4 +1,8 @@
-/* Action constants. */
+/*--- Audio constants. ---*/
+/* In seconds. */
+export const AUDIO_SCHEDULING_GLOBAL_OFFSET = 0.060;
+
+/*--- Action constants. ---*/
 export const NOTES_PER_OCTAVE = 12;
 
 export const OCTAVE_START = 3;
@@ -13,10 +17,11 @@ export const RANDOM_NOTE_COUNT = 6;
 export const ARP_SPEED = 125;
 export const DELAY_TIME = 0.3;
 
-/* Synth constants. */
+/*--- Synth constants. ---*/
 export const MIDI_OFFSET = 69;
-export const DEFAULT_BASE_TUNING = 440;
 
+/* In Hz. */
+export const DEFAULT_BASE_TUNING = 440;
 export const DEFAULT_TUNING_OFFSET = 0;
 
 export const DEFAULT_CHORD = [0, 4, 7];
@@ -50,9 +55,9 @@ export const NOTE_OFFSET_NAME_TABLE = {
   4: "+4",
   5: "+5",
   6: "±6",
-  7: "−5",
-  8: "−4",
-  9: "−3",
-  10: "♭♭",
-  11: "♭"
+  "-5": "−5",
+  "-4": "−4",
+  "-3": "−3",
+  "-2": "♭♭",
+  "-1": "♭"
 };

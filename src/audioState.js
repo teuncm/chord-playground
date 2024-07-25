@@ -1,6 +1,7 @@
-import { randFloat } from "./helpers";
+import { AUDIO_SCHEDULING_GLOBAL_OFFSET } from "./constants";
+import { zip, random } from 'lodash';
 
-export class AudioState {
+export class MyAudioState {
   static audioCtx = null;
   static synthOut = null;
   static out = null;
@@ -11,132 +12,247 @@ export class AudioState {
       this.synthOut = this.audioCtx.createGain();
       this.out = this.audioCtx.destination;
 
-      /* Reverb. */
-      const reverbFilter = this.audioCtx.createBiquadFilter();
-      reverbFilter.type = "highpass";
-      reverbFilter.frequency.setValueAtTime(400, this.now());
-      reverbFilter.Q.setValueAtTime(0, this.now());
-
-      const reverbDry = this.audioCtx.createGain();
-      const reverbWet = this.audioCtx.createGain();
-      const convolver = this.createConvReverb(0.1, 5);
-
-      reverbDry.gain.setValueAtTime(1, this.now());
-      reverbWet.gain.setValueAtTime(0.7, this.now());
-  
-      this.synthOut.connect(reverbDry);
-      this.synthOut.connect(convolver);
-      convolver.connect(reverbFilter);
-      reverbFilter.connect(reverbWet);
-
-      const reverb = this.audioCtx.createGain();
-      reverbDry.connect(reverb);
-      reverbWet.connect(reverb);
-
-      /* Filter. */
-      const highShelf = this.audioCtx.createBiquadFilter();
-      highShelf.type = "highshelf";
-      highShelf.frequency.setValueAtTime(4500, this.now());
-      highShelf.gain.setValueAtTime(-45, this.now());
-
-      /* Compress. */
-      const compressor = this.audioCtx.createDynamicsCompressor();
-      compressor.threshold.setValueAtTime(-28, this.now());
-      compressor.ratio.setValueAtTime(8, this.now());
-      compressor.attack.setValueAtTime(0.2, this.now());
-      compressor.release.setValueAtTime(0.4, this.now());
-
-      /* Clip. */
-      const shaper = this.audioCtx.createWaveShaper();
-      shaper.curve = new Float32Array([-1, 1]);
-
-      reverb.connect(highShelf);
-      highShelf.connect(compressor);
-      compressor.connect(shaper);
-      shaper.connect(this.out);
+      this.initializeChain();
     }
   }
 
-  /* Generate reverb buffer and assign it to the convolver. */
-  static createConvReverb(delay, duration) {
-    const convolver = this.audioCtx.createConvolver();
-    
-    const numChannels = 2;
-    const sr = this.audioCtx.sampleRate;
-    const impulseBuffer = this.audioCtx.createBuffer(numChannels, duration * sr, sr);
-  
-    const maxIdx = duration * sr - 1
-    for (let i = 0; i < numChannels; i++) {
-      let c = impulseBuffer.getChannelData(i);
-  
-      /* Empty buffer over initial delay. */
-      for (let j = 0; j < delay*sr; j++) {
-        c[j] = 0;
-      }
+  /* Initialize the global effect chain. */
+  static initializeChain() {
+    /* Reverb. */
+    const reverbEffect = new MyAudioEffect(
+      setProps(this.audioCtx.createConvolver(), {
+        normalize: true,
+        buffer: createConvBuffer(0.1, 2, 2)
+      })).setDryWet(1, 0.9);
 
-      for (let j = delay*sr; j < c.length; j++) {
-        /* Decay amplitude over time. */
-        let amp = ((maxIdx - j) / maxIdx) ** 1;
 
-        /* Decaying white noise. */
-        c[j] = amp * randFloat(-1, 1);
-      }
-    }
-  
-    /* Assign buffer. */
-    convolver.normalize = true;
-    convolver.buffer = impulseBuffer;
-  
-    return convolver;
+    /* High shelf. */
+    const highShelfEffect = new MyAudioEffect(
+      setProps(this.audioCtx.createBiquadFilter(), {
+        type: "highshelf",
+        frequency: 4000,
+        gain: -48
+      }));
+
+    /* Compress. */
+    const compressorEffect = new MyAudioEffect(
+      setProps(this.audioCtx.createDynamicsCompressor(), {
+        threshold: -30,
+        ratio: 5,
+        attack: 0.1,
+        release: 0.1
+      }));
+
+    /* Clip. */
+    const waveShaperEffect = new MyAudioEffect(
+      setProps(this.audioCtx.createWaveShaper(), {
+        curve: new Float32Array([-1, 1])
+      }));
+
+    this.synthOut.connect(reverbEffect.in);
+    reverbEffect
+    .connect(highShelfEffect)
+    .connect(compressorEffect)
+    .connect(waveShaperEffect)
+    .connect(this.out);
+  }
+
+  /* Return the current audio sample rate. */
+  static sampleRate() {
+    return this.audioCtx.sampleRate;
   }
 
   /* Return current audio context timestamp. */
   static now() {
-    return AudioState.audioCtx.currentTime;
+    return MyAudioState.audioCtx.currentTime + AUDIO_SCHEDULING_GLOBAL_OFFSET;
   }
 }
 
 export function bell(bellFrequency) {
-  AudioState.ensureAudioCtx();
+  MyAudioState.ensureAudioCtx();
 
-  const oscillator = AudioState.audioCtx.createOscillator();
-  const gainNode = AudioState.audioCtx.createGain();
+  const oscillator = setProps(MyAudioState.audioCtx.createOscillator(), {
+    type: 'sawtooth',
+    frequency: bellFrequency
+  });
+  const gainNode = MyAudioState.audioCtx.createGain();
 
   oscillator.connect(gainNode);
-  gainNode.connect(AudioState.synthOut);
+  gainNode.connect(MyAudioState.synthOut);
 
   /* Control params. */
   const volume = 0.1;
   const delayTime = 0;
-  // const attackTime = 0.012;
-  const attackTime = 0;
+  const attackTime = 0.1;
+  const holdTime = 0.1;
   /* Scale decay inversely based on frequency. */
   const octaveFactor = Math.log(bellFrequency / 27.5);
   const decayTime = 3 * Math.exp(-octaveFactor) + 0.4;
-  // const decayTime = 1;
 
-  /* Calculated params. */
-  const curTime = AudioState.now();
-  const curDelayTime = curTime + delayTime
-  const curAttackTime = curDelayTime + attackTime;
-  const curDecayTime = curAttackTime + decayTime;
+  const timestamps = DAHD(gainNode, "gain", {
+    floor: 0,
+    level: volume,
+    delay: delayTime,
+    attack: attackTime,
+    hold: holdTime,
+    decay: decayTime,
+  });
 
-  const delayFrequency = bellFrequency * 0.6;
-  const decayFrequency = bellFrequency * 1.01
+  console.log(timestamps);
 
-  /* Oscillator. */
-  oscillator.type = 'sawtooth';
-  oscillator.frequency.setValueAtTime(bellFrequency, curTime);
-  // oscillator.frequency.setValueAtTime(delayFrequency, curDelayTime);
-  // oscillator.frequency.linearRampToValueAtTime(bellFrequency, curAttackTime);
-  // oscillator.frequency.linearRampToValueAtTime(decayFrequency, curDecayTime);
+  oscillator.start(timestamps[0]);
+  oscillator.stop(timestamps[-1]);
+}
 
-  /* Volume envelope. */
-  gainNode.gain.setValueAtTime(0, curTime);
-  gainNode.gain.setValueAtTime(0, curDelayTime);
-  gainNode.gain.linearRampToValueAtTime(volume, curAttackTime);
-  gainNode.gain.linearRampToValueAtTime(0, curDecayTime);
+export class MyAudioEffect {
+  in = null;
 
-  oscillator.start(curTime);
-  oscillator.stop(curDecayTime);
+  nodeIn = null;
+  nodeOut = null;
+  wet = null;
+
+  dry = null;
+  out = null;
+
+  constructor(nodeIn, nodeOut=null) {
+    if (nodeOut === null) {
+      nodeOut = nodeIn;
+    }
+
+    this.in = MyAudioState.audioCtx.createGain();
+
+    this.nodeIn = nodeIn;
+    this.nodeOut = nodeOut;
+    this.dry = MyAudioState.audioCtx.createGain();
+    this.wet = MyAudioState.audioCtx.createGain();
+
+    this.out = MyAudioState.audioCtx.createGain();
+
+    /* Dry. */
+    this.in.connect(this.dry);
+    this.dry.connect(this.out);
+
+    /* Wet. */
+    this.in.connect(nodeIn);
+    nodeOut.connect(this.wet);
+    this.wet.connect(this.out);
+
+    /* Default to 100% wet. */
+    this.setDryWet(0, 1);
+  }
+
+  connect(nextNode) {
+    if (nextNode instanceof MyAudioEffect) {
+      this.out.connect(nextNode.in);
+
+      return nextNode;
+    } else {
+      return this.out.connect(nextNode);
+    }
+  }
+
+  setDryWet(dryLevel, wetLevel) {
+    setProp(this.dry, "gain", dryLevel);
+    setProp(this.wet, "gain", wetLevel);
+
+    return this;
+  }
+}
+
+/* Create basic Delay-Attack-Hold-Decay envelope. */
+export function DAHD(node, prop, envelope) {
+  const values = [envelope.floor, envelope.floor, envelope.level, envelope.level, envelope.floor];
+  const timestamps = normalizeTimestamps([0, envelope.delay, envelope.attack, envelope.hold, envelope.decay]);
+  setEnvelope(node, prop, values, timestamps);
+
+  return timestamps;
+}
+
+export function normalizeTimestamps(timestamps) {
+  let curTimestamp = MyAudioState.now();
+  
+  for (let idx = 0; idx < timestamps.length; idx++) {
+    curTimestamp += timestamps[idx];
+    timestamps[idx] = curTimestamp;
+  }
+
+  return timestamps;
+}
+
+/* Create an audioParam envelope. */
+export function setEnvelope(node, prop, values, timestamps) {
+  if (!(node[prop] instanceof AudioParam)) {
+    console.error("Property is not an AudioParam.");
+
+    return;
+  }
+  
+  for (const [index, [value, timestamp]] of zip(values, timestamps).entries()) {
+    if (index === 0) {
+      setProp(node, prop, value, timestamp);
+    } else {
+      rampPropAt(node, prop, value, timestamp);
+    }
+  }
+
+  return node;
+}
+
+/* Ramp a property on a parameter to a value at a certain timestamp. */
+export function rampPropAt(node, prop, value, timestamp) {
+  if (!(node[prop] instanceof AudioParam)) {
+    console.error("Property is not an AudioParam.");
+
+    return;
+  } else {
+    node[prop].linearRampToValueAtTime(value, timestamp);
+  }
+
+  return node;
+}
+
+/* Set multiple properties on a node. */
+export function setProps(node, props) {
+  for (const [prop, value] of Object.entries(props)) {
+    setProp(node, prop, value);
+  }
+
+  return node;
+}
+
+/* Set a property on a node. */
+export function setProp(node, prop, value, timestamp=MyAudioState.now()) {
+  if (node[prop] instanceof AudioParam) {
+    node[prop].setValueAtTime(value, timestamp);
+  } else {
+    node[prop] = value;
+  }
+
+  return node;
+}
+
+/* Generate noise buffer for basic reverb convolutions. */
+function createConvBuffer(delay, duration, numChannels) {
+  const sampleRate = MyAudioState.sampleRate();
+  const convBuffer = MyAudioState.audioCtx.createBuffer(numChannels, duration * sampleRate, sampleRate);
+
+  const maxIdx = duration * sampleRate - 1
+  for (let channelIdx = 0; channelIdx < numChannels; channelIdx++) {
+    let channel = convBuffer.getChannelData(channelIdx);
+
+    /* Leave buffer empty over initial delay. */
+    for (let sampleIdx = 0; sampleIdx < delay * sampleRate; sampleIdx++) {
+      channel[sampleIdx] = 0;
+    }
+
+    for (let sampleIdx = delay * sampleRate; sampleIdx < channel.length; sampleIdx++) {
+      /* Decay amplitude over time. */
+      let amp = (maxIdx - sampleIdx) / maxIdx;
+
+      /* Decaying white noise. */
+      channel[sampleIdx] = amp * random(-1, 1);
+    }
+  }
+
+  return convBuffer
 }

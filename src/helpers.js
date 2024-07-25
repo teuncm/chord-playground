@@ -54,31 +54,6 @@ export function getFullNoteName(midiNumber) {
   return getNoteSymbol(midiNumber) + getOctaveFromMidiNumber(midiNumber);
 }
 
-/* Draw random integer. */
-export function randInt(randMin, randMax) {
-  const randRange = randMax - randMin;
-
-  return Math.floor(Math.random() * randRange) + randMin;
-}
-
-/* Draw random float. */
-export function randFloat(randMin, randMax) {
-  const randRange = randMax - randMin;
-
-  return Math.random() * randRange + randMin;
-}
-
-/* Draw random list item, or null if list is empty. */
-export function randItem(itemList) {
-  if (itemList == []) {
-    return null;
-  }
-
-  const randIdx = randInt(0, itemList.length);
-
-  return itemList[randIdx];
-}
-
 /* Print midi number, fully qualified note name and frequency. */
 export function printMidi(midiNumber) {
   const fullNoteName = getFullNoteName(midiNumber);

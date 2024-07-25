@@ -1,7 +1,8 @@
 <script>
-import { getNoteSymbol, getNoteIndices, randItem } from '../helpers';
+import { getNoteSymbol, getNoteIndices } from '../helpers';
 import { synthState } from '../stores/store';
 import { computed } from 'vue';
+import { sample } from 'lodash';
 
 export default {
   setup() {
@@ -10,7 +11,7 @@ export default {
       set: (value) => {
         synthState.chord = value.map(Number);
         if (!synthState.chord.includes(synthState.chordRoot)) {
-          synthState.chordRoot = randItem(synthState.chord);
+          synthState.chordRoot = sample(synthState.chord);
         }
       }
     });

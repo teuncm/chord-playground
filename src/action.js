@@ -1,8 +1,8 @@
 import { OCTAVE_START, OCTAVE_END, NOTES_PER_OCTAVE, OCTAVE_RANGE } from "./constants";
-import { randInt, randItem, getFreqFromMidiNumber, wrapMidiNumber } from "./helpers"
+import { getFreqFromMidiNumber, wrapMidiNumber } from "./helpers"
 import { synthState } from "./stores/store";
-
-import * as Tone from 'tone'
+import { bell } from "./audioState";
+import { sample } from "lodash"
 
 export const RANDOM_NOTE_COUNT = 6;
 export const ARP_SPEED = 125;
@@ -13,11 +13,11 @@ export function actionRandomize() {
 
   let chord = [];
   for (let i = 0; i < 3; i++) {
-    chord.push(randInt(0, NOTES_PER_OCTAVE));
+    chord.push(random(0, NOTES_PER_OCTAVE));
   }
   chord = [...new Set(chord)].toSorted();
 
-  let chordRoot = randItem(chord);
+  let chordRoot = sample(chord);
 
   synthState.chordShift = chordShift;
   synthState.chord = chord;
@@ -32,8 +32,8 @@ export function actionRandom() {
   }
 
   for (let i = 0; i < RANDOM_NOTE_COUNT; i++) {
-    const octaveOffset = randInt(OCTAVE_START, OCTAVE_END + 1);
-    const noteOffset = randItem(scale);
+    const octaveOffset = random(OCTAVE_START, OCTAVE_END + 1);
+    const noteOffset = sample(scale);
     const key = getKey();
     const midiNumber = wrapMidiNumber(octaveOffset * NOTES_PER_OCTAVE + key + noteOffset);
     const freq = getFreqFromMidiNumber(midiNumber);
@@ -136,17 +136,12 @@ export function playNote(midiNumber) {
     const offsetMidi = midiNumber + (chordNote - synthState.chordRoot) + shift;
 
     const freq = synthState.transformMidi(offsetMidi);
-    // bell(freq);
+    bell(freq);
 
-    const synth1 = new Tone.Synth({
-      // oscillator: {
-      //   type: "default",
-      //   count: 3,
-      //   spread: 20
-      // }
-    }).toDestination();
+    // const synth1 = new Tone.Synth({
+    // }).toDestination();
 
-    synth1.triggerAttackRelease(freq, 0.01);
+    // synth1.triggerAttackRelease(freq, 0.01);
 
     if (chordNote == synthState.chordRoot) {
       continue;
