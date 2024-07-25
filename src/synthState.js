@@ -1,8 +1,9 @@
 import { DEFAULT_BASE_TUNING, DEFAULT_TUNING_OFFSET, DEFAULT_CHORD, DEFAULT_CHORD_ROOT, DEFAULT_CHORD_SHIFT, DEFAULT_OCTAVE_SHIFT } from "./constants";
 import { wrapMidiNumber, getFreqFromMidiNumber } from "./helpers";
+import { reactive } from 'vue';
 
-/* Synth parameters. */
-export class SynthState {
+/* Reactive synth parameters. */
+class SynthState {
   /* In Hz. */
   baseTuning = DEFAULT_BASE_TUNING;
 
@@ -23,3 +24,5 @@ export class SynthState {
     return getFreqFromMidiNumber(transformedMidiNumber);
   }
 }
+
+export const synthState = reactive(new SynthState());

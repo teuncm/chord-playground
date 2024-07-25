@@ -1,6 +1,6 @@
 import { OCTAVE_START, OCTAVE_END, NOTES_PER_OCTAVE, OCTAVE_RANGE, MAX_TUNING_OFFSET } from "./constants";
 import { getFreqFromMidiNumber, wrapMidiNumber } from "./helpers"
-import { synthState } from "./stores/store";
+import { synthState } from "./synthState";
 import { bell } from "./audioState";
 import { random, sample } from "lodash"
 

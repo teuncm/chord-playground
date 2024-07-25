@@ -1,6 +1,6 @@
 <script>
 import { computed } from 'vue';
-import { synthState } from '../stores/store';
+import { synthState } from '../synthState';
 import { MAX_TUNING_OFFSET } from '../constants';
 
 export default {

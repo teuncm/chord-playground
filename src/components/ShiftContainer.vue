@@ -1,7 +1,7 @@
 <script>
 import { computed } from 'vue';
 import { getShiftSymbol, getShiftIndices } from '../helpers';
-import { synthState } from '../stores/store';
+import { synthState } from '../synthState';
 
 export default {
   setup() {

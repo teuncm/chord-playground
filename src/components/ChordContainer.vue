@@ -1,6 +1,6 @@
 <script>
 import { getNoteSymbol, getNoteIndices } from '../helpers';
-import { synthState } from '../stores/store';
+import { synthState } from '../synthState';
 import { computed } from 'vue';
 import { sample } from 'lodash';
 

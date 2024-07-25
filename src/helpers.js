@@ -1,5 +1,5 @@
 import { MIDI_OFFSET, NOTES_PER_OCTAVE, MIDI_START, MIDI_RANGE, OCTAVE_RANGE, OCTAVE_START, OCTAVE_END, NOTE_NAME_TABLE, NOTE_OFFSET_NAME_TABLE } from "./constants";
-import { synthState } from "./stores/store";
+import { synthState } from "./synthState";
 import { range, map } from "lodash";
 
 /* Obtain the octave from midi number. */
