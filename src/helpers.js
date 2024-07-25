@@ -1,5 +1,6 @@
-import { MIDI_OFFSET, NOTES_PER_OCTAVE, MIDI_START, MIDI_RANGE, OCTAVE_RANGE, OCTAVE_START, NOTE_NAME_TABLE, NOTE_OFFSET_NAME_TABLE } from "./constants";
+import { MIDI_OFFSET, NOTES_PER_OCTAVE, MIDI_START, MIDI_RANGE, OCTAVE_RANGE, OCTAVE_START, OCTAVE_END, NOTE_NAME_TABLE, NOTE_OFFSET_NAME_TABLE } from "./constants";
 import { synthState } from "./stores/store";
+import { range, map } from "lodash";
 
 /* Obtain the octave from midi number. */
 export function getOctaveFromMidiNumber(midiNumber) {
@@ -31,15 +32,8 @@ export function getShiftIndices() {
 
 /* Get all midi over all octaves. */
 export function getAllMidi() {
-  let allMidi = [];
-  for(let i = 0; i < OCTAVE_RANGE; i++) {
-    let octaveMidi = [];
-    for(let j = 0; j < NOTES_PER_OCTAVE; j++) {
-      octaveMidi.push((OCTAVE_START + i)*NOTES_PER_OCTAVE + j);
-    }
-
-    allMidi.push(octaveMidi);
-  }
+  const octaves = range(OCTAVE_START, OCTAVE_END);
+  const allMidi = map(octaves, (octave) => range(octave*NOTES_PER_OCTAVE, octave*NOTES_PER_OCTAVE + NOTES_PER_OCTAVE));
 
   return allMidi;
 }

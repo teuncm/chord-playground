@@ -1,5 +1,5 @@
 <template>
-  <!-- <ActionContainer /> -->
+  <ActionContainer />
   <Divider />
   <ChordContainer />
   <Divider />
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-// import ActionContainer from './components/ActionContainer.vue';
+import ActionContainer from './components/ActionContainer.vue';
 import NoteContainer from './components/NoteContainer.vue';
 import Divider from './components/Divider.vue';
 import ChordContainer from './components/ChordContainer.vue';
@@ -23,7 +23,7 @@ export default {
   components:
   {
     Divider,
-    // ActionContainer,
+    ActionContainer,
     ChordContainer,
     ShiftContainer,
     NoteContainer,

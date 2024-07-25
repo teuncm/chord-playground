@@ -1,6 +1,7 @@
 <script>
 import { computed } from 'vue';
 import { synthState } from '../stores/store';
+import { MAX_TUNING_OFFSET } from '../constants';
 
 export default {
   setup() {
@@ -14,6 +15,12 @@ export default {
     return {
       tuningOffset,
     };
+  },
+
+  data() {
+    return {
+      MAX_TUNING_OFFSET,
+    };
   }
 }
 </script>
@@ -21,7 +28,7 @@ export default {
 <template>
   <div class="container" id="shift-container">
     <div class="container-row">
-      <input class="slider" type="range" v-model="tuningOffset" min="-50" max="50" step="1" list="my-detents" />
+      <input class="slider" type="range" v-model="tuningOffset" :min=" - MAX_TUNING_OFFSET" :max="MAX_TUNING_OFFSET" step="1" list="my-detents" />
     </div>
     <div class="container-row detents">
     <datalist id="my-detents">

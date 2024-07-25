@@ -23,6 +23,7 @@ export const MIDI_OFFSET = 69;
 /* In Hz. */
 export const DEFAULT_BASE_TUNING = 440;
 export const DEFAULT_TUNING_OFFSET = 0;
+export const MAX_TUNING_OFFSET = 50;
 
 export const DEFAULT_CHORD = [0, 4, 7];
 export const DEFAULT_CHORD_ROOT = 0;
@@ -55,9 +56,9 @@ export const NOTE_OFFSET_NAME_TABLE = {
   4: "+4",
   5: "+5",
   6: "±6",
-  "-5": "−5",
-  "-4": "−4",
-  "-3": "−3",
-  "-2": "♭♭",
-  "-1": "♭"
+  7: "−5",
+  8: "−4",
+  9: "−3",
+  10: "♭♭",
+  11: "♭"
 };

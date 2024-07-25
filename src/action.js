@@ -1,8 +1,8 @@
-import { OCTAVE_START, OCTAVE_END, NOTES_PER_OCTAVE, OCTAVE_RANGE } from "./constants";
+import { OCTAVE_START, OCTAVE_END, NOTES_PER_OCTAVE, OCTAVE_RANGE, MAX_TUNING_OFFSET } from "./constants";
 import { getFreqFromMidiNumber, wrapMidiNumber } from "./helpers"
 import { synthState } from "./stores/store";
 import { bell } from "./audioState";
-import { sample } from "lodash"
+import { random, sample } from "lodash"
 
 export const RANDOM_NOTE_COUNT = 6;
 export const ARP_SPEED = 125;
@@ -13,15 +13,17 @@ export function actionRandomize() {
 
   let chord = [];
   for (let i = 0; i < 3; i++) {
-    chord.push(random(0, NOTES_PER_OCTAVE));
+    chord.push(random(0, NOTES_PER_OCTAVE - 1));
   }
   chord = [...new Set(chord)].toSorted();
 
   let chordRoot = sample(chord);
+  let tuningOffset = random(-MAX_TUNING_OFFSET, MAX_TUNING_OFFSET);
 
   synthState.chordShift = chordShift;
   synthState.chord = chord;
   synthState.chordRoot = chordRoot;
+  synthState.tuningOffset = tuningOffset;
 }
 
 export function actionRandom() {
@@ -138,19 +140,19 @@ export function playNote(midiNumber) {
     const freq = synthState.transformMidi(offsetMidi);
     bell(freq);
 
-    // const synth1 = new Tone.Synth({
-    // }).toDestination();
-
-    // synth1.triggerAttackRelease(freq, 0.01);
-
     if (chordNote == synthState.chordRoot) {
       continue;
     }
 
-    const button = document.getElementById("note-" + offsetMidi);
-    button.classList.add('light-up');
-    setTimeout(() => {
-      button.classList.remove('light-up');
-    }, 100);
+    lightUpNote(offsetMidi);
   }
+}
+
+/* Briefly light up a note on the grid with the given midi number. */
+export function lightUpNote(midiNumber) {
+  const button = document.getElementById("note-" + midiNumber);
+  button.classList.add('light-up');
+  setTimeout(() => {
+    button.classList.remove('light-up');
+  }, 100);
 }
