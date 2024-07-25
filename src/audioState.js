@@ -16,10 +16,10 @@ export class MyAudioState {
     }
   }
 
-  /* Initialize the global effect chain. */
+  /* Initialize and connect the global effect chain. */
   static initializeChain() {
     /* Reverb. */
-    const reverbEffect = new MyAudioEffect(
+    const reverbEffect = new MyAudioEffectChain(
       setProps(this.audioCtx.createConvolver(), {
         normalize: true,
         buffer: createConvBuffer(0.1, 2, 2)
@@ -27,7 +27,7 @@ export class MyAudioState {
 
 
     /* High shelf. */
-    const highShelfEffect = new MyAudioEffect(
+    const highShelfEffect = new MyAudioEffectChain(
       setProps(this.audioCtx.createBiquadFilter(), {
         type: "highshelf",
         frequency: 4000,
@@ -35,7 +35,7 @@ export class MyAudioState {
       }));
 
     /* Compress. */
-    const compressorEffect = new MyAudioEffect(
+    const compressorEffect = new MyAudioEffectChain(
       setProps(this.audioCtx.createDynamicsCompressor(), {
         threshold: -30,
         ratio: 5,
@@ -44,7 +44,7 @@ export class MyAudioState {
       }));
 
     /* Clip. */
-    const waveShaperEffect = new MyAudioEffect(
+    const waveShaperEffect = new MyAudioEffectChain(
       setProps(this.audioCtx.createWaveShaper(), {
         curve: new Float32Array([-1, 1])
       }));
@@ -104,7 +104,7 @@ export function bell(bellFrequency) {
   oscillator.stop(timestamps[-1]);
 }
 
-export class MyAudioEffect {
+export class MyAudioEffectChain {
   in = null;
 
   nodeIn = null;
@@ -142,7 +142,7 @@ export class MyAudioEffect {
   }
 
   connect(nextNode) {
-    if (nextNode instanceof MyAudioEffect) {
+    if (nextNode instanceof MyAudioEffectChain) {
       this.out.connect(nextNode.in);
 
       return nextNode;
@@ -232,25 +232,26 @@ export function setProp(node, prop, value, timestamp=MyAudioState.now()) {
 }
 
 /* Generate noise buffer for basic reverb convolutions. */
-function createConvBuffer(delay, duration, numChannels) {
+function createConvBuffer(convDelay, convDuration, numChannels) {
   const sampleRate = MyAudioState.sampleRate();
-  const convBuffer = MyAudioState.audioCtx.createBuffer(numChannels, duration * sampleRate, sampleRate);
+  const convBuffer = MyAudioState.audioCtx.createBuffer(numChannels, convDuration * sampleRate, sampleRate);
 
-  const maxIdx = duration * sampleRate - 1
+  const maxSampleIdx = convDuration * sampleRate - 1;
+  const convDelayIdx = convDelay * sampleRate;
+  /* Create separate noise buffer for each channel. */
   for (let channelIdx = 0; channelIdx < numChannels; channelIdx++) {
     let channel = convBuffer.getChannelData(channelIdx);
 
     /* Leave buffer empty over initial delay. */
-    for (let sampleIdx = 0; sampleIdx < delay * sampleRate; sampleIdx++) {
+    for (let sampleIdx = 0; sampleIdx < convDelayIdx; sampleIdx++) {
       channel[sampleIdx] = 0;
     }
 
-    for (let sampleIdx = delay * sampleRate; sampleIdx < channel.length; sampleIdx++) {
-      /* Decay amplitude over time. */
-      let amp = (maxIdx - sampleIdx) / maxIdx;
-
-      /* Decaying white noise. */
-      channel[sampleIdx] = amp * random(-1, 1);
+    /* Linearly decay white noise over time. */
+    for (let sampleIdx = convDelayIdx; sampleIdx < channel.length; sampleIdx++) {
+      let whiteNoise = random(-1, 1);
+      let amp = (maxSampleIdx - sampleIdx) / maxSampleIdx;
+      channel[sampleIdx] = amp * whiteNoise;
     }
   }
 

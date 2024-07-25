@@ -1,4 +1,4 @@
-import { DEFAULT_BASE_TUNING, DEFAULT_TUNING_OFFSET, DEFAULT_CHORD, DEFAULT_CHORD_ROOT, DEFAULT_CHORD_SHIFT, DEFAULT_OCTAVE_SHIFT, NOTES_PER_OCTAVE } from "./constants";
+import { MIDI_OFFSET, DEFAULT_BASE_TUNING, DEFAULT_TUNING_OFFSET, DEFAULT_CHORD, DEFAULT_CHORD_ROOT, DEFAULT_CHORD_SHIFT, DEFAULT_OCTAVE_SHIFT, NOTES_PER_OCTAVE } from "./constants";
 import { wrapMidiNumber } from "./helpers";
 import { reactive } from 'vue';
 
@@ -26,7 +26,7 @@ class SynthState {
 
   /* Get absolute oscillator frequency from midi number. */
   getFreqFromMidiNumber(midiNumber) {
-    return this.baseTuning * 2**((midiNumber + (this.tuningOffset / 100)) / NOTES_PER_OCTAVE);
+    return this.baseTuning * 2**((midiNumber - MIDI_OFFSET + (this.tuningOffset / 100)) / NOTES_PER_OCTAVE);
   }
 }
 

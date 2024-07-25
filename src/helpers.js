@@ -1,22 +1,12 @@
-import { MIDI_OFFSET, NOTES_PER_OCTAVE, MIDI_START, MIDI_RANGE, OCTAVE_START, OCTAVE_END, NOTE_NAME_TABLE, NOTE_OFFSET_NAME_TABLE } from "./constants";
-import { synthState } from "./synthState";
+import { NOTES_PER_OCTAVE, MIDI_START, MIDI_RANGE, OCTAVE_START, OCTAVE_END, NOTE_NAME_TABLE, NOTE_OFFSET_NAME_TABLE } from "./constants";
 import { range, map } from "lodash";
-
-/* Obtain the octave from midi number. */
-export function getOctaveFromMidiNumber(midiNumber) {
-  return Math.floor(midiNumber / NOTES_PER_OCTAVE) - 1;
-}
-
-/* Get absolute oscillator frequency from midi number. */
-export function getFreqFromMidiNumber(midiNumber) {
-  return synthState.baseTuning * 2 ** ((midiNumber - MIDI_OFFSET + (synthState.tuningOffset / 100)) / NOTES_PER_OCTAVE);
-}
 
 /* Get note symbol / pitch class symbol. */
 export function getNoteSymbol(midiNumber) {
   return NOTE_NAME_TABLE[midiNumber % NOTES_PER_OCTAVE];
 }
 
+/* Get all indices that belong to note symbols. */
 export function getNoteIndices() {
   return Object.keys(NOTE_NAME_TABLE);
 }
@@ -26,6 +16,7 @@ export function getShiftSymbol(offset) {
   return NOTE_OFFSET_NAME_TABLE[offset % NOTES_PER_OCTAVE];
 }
 
+/* Get all indices that belong to shift symbols. */
 export function getShiftIndices() {
   return Object.keys(NOTE_OFFSET_NAME_TABLE);
 }
@@ -41,6 +32,11 @@ export function getAllMidiNumbers() {
 /* Wrap midi around the grid. */
 export function wrapMidiNumber(midiNumber) {
   return (midiNumber - MIDI_START) % MIDI_RANGE + MIDI_START;
+}
+
+/* Obtain the octave from midi number. */
+export function getOctaveFromMidiNumber(midiNumber) {
+  return Math.floor(midiNumber / NOTES_PER_OCTAVE) - 1;
 }
 
 /* Get note name and octave position. */
