@@ -1,4 +1,4 @@
-import { MIDI_OFFSET, NOTES_PER_OCTAVE, MIDI_START, MIDI_RANGE, OCTAVE_RANGE, OCTAVE_START, OCTAVE_END, NOTE_NAME_TABLE, NOTE_OFFSET_NAME_TABLE } from "./constants";
+import { MIDI_OFFSET, NOTES_PER_OCTAVE, MIDI_START, MIDI_RANGE, OCTAVE_START, OCTAVE_END, NOTE_NAME_TABLE, NOTE_OFFSET_NAME_TABLE } from "./constants";
 import { synthState } from "./synthState";
 import { range, map } from "lodash";
 
@@ -23,7 +23,7 @@ export function getNoteIndices() {
 
 /* Get shift symbol. */
 export function getShiftSymbol(offset) {
-  return NOTE_OFFSET_NAME_TABLE[offset];
+  return NOTE_OFFSET_NAME_TABLE[offset % NOTES_PER_OCTAVE];
 }
 
 export function getShiftIndices() {
@@ -31,7 +31,7 @@ export function getShiftIndices() {
 }
 
 /* Get all midi over all octaves. */
-export function getAllMidi() {
+export function getAllMidiNumbers() {
   const octaves = range(OCTAVE_START, OCTAVE_END);
   const allMidi = map(octaves, (octave) => range(octave*NOTES_PER_OCTAVE, octave*NOTES_PER_OCTAVE + NOTES_PER_OCTAVE));
 

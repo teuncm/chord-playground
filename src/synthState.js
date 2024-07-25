@@ -1,8 +1,8 @@
-import { DEFAULT_BASE_TUNING, DEFAULT_TUNING_OFFSET, DEFAULT_CHORD, DEFAULT_CHORD_ROOT, DEFAULT_CHORD_SHIFT, DEFAULT_OCTAVE_SHIFT } from "./constants";
-import { wrapMidiNumber, getFreqFromMidiNumber } from "./helpers";
+import { DEFAULT_BASE_TUNING, DEFAULT_TUNING_OFFSET, DEFAULT_CHORD, DEFAULT_CHORD_ROOT, DEFAULT_CHORD_SHIFT, DEFAULT_OCTAVE_SHIFT, NOTES_PER_OCTAVE } from "./constants";
+import { wrapMidiNumber } from "./helpers";
 import { reactive } from 'vue';
 
-/* Reactive synth parameters. */
+/* Synth parameters. */
 class SynthState {
   /* In Hz. */
   baseTuning = DEFAULT_BASE_TUNING;
@@ -18,11 +18,17 @@ class SynthState {
   /* In octaves. */
   octaveShift = DEFAULT_OCTAVE_SHIFT;
 
-  transformMidi(midiNumber) {
+  transformMidiNumber(midiNumber) {
     const transformedMidiNumber = wrapMidiNumber(midiNumber);
 
-    return getFreqFromMidiNumber(transformedMidiNumber);
+    return this.getFreqFromMidiNumber(transformedMidiNumber);
+  }
+
+  /* Get absolute oscillator frequency from midi number. */
+  getFreqFromMidiNumber(midiNumber) {
+    return this.baseTuning * 2**((midiNumber + (this.tuningOffset / 100)) / NOTES_PER_OCTAVE);
   }
 }
 
+/* Reactive synth object. */
 export const synthState = reactive(new SynthState());

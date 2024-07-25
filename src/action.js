@@ -137,7 +137,7 @@ export function playNote(midiNumber) {
     const shift = chordNote == synthState.chordRoot ? 0 : synthState.chordShift;
     const offsetMidi = midiNumber + (chordNote - synthState.chordRoot) + shift;
 
-    const freq = synthState.transformMidi(offsetMidi);
+    const freq = synthState.transformMidiNumber(offsetMidi);
     bell(freq);
 
     if (chordNote == synthState.chordRoot) {
