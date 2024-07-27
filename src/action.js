@@ -1,4 +1,4 @@
-import { OCTAVE_START, OCTAVE_END, NOTES_PER_OCTAVE, OCTAVE_RANGE, MAX_TUNING_OFFSET } from "./constants";
+import { OCTAVE_START, OCTAVE_END, NOTES_PER_OCTAVE, OCTAVE_RANGE, MAX_TUNING_OFFSET, MIDI_RANGE, MIDI_START } from "./constants";
 import { wrapMidiNumber } from "./helpers"
 import { mySynthState } from "./mySynthState";
 import { bell } from "./myAudioState";
@@ -126,17 +126,16 @@ export function actionDown() {
 export function playNote(midiNumber) {
   for (let chordNote of mySynthState.chord) {
     const shift = chordNote == mySynthState.chordRoot ? 0 : mySynthState.chordShift;
-    const offsetMidi = midiNumber + (chordNote - mySynthState.chordRoot) + shift;
-
+    const offsetMidi = wrapMidiNumber(midiNumber + (chordNote - mySynthState.chordRoot) + shift);
     const freq = mySynthState.transformMidiNumber(offsetMidi);
 
     bell(freq);
 
     if (chordNote == mySynthState.chordRoot) {
-      continue;
+      lightUpRoot(offsetMidi)
+    } else {
+      lightUpNote(offsetMidi);
     }
-
-    lightUpNote(offsetMidi);
   }
 }
 
@@ -146,5 +145,14 @@ export function lightUpNote(midiNumber) {
   button.classList.add('light-up');
   setTimeout(() => {
     button.classList.remove('light-up');
+  }, 100);
+}
+
+/* Briefly light up a note on the grid with the given midi number. */
+export function lightUpRoot(midiNumber) {
+  const button = document.getElementById("note-" + midiNumber);
+  button.classList.add('light-up-root');
+  setTimeout(() => {
+    button.classList.remove('light-up-root');
   }, 100);
 }

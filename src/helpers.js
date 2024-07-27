@@ -24,7 +24,7 @@ export function setNodeProp(node, prop, value, timestamp=MyAudioState.now()) {
 
 /* Get note symbol / pitch class symbol. */
 export function getNoteSymbol(midiNumber) {
-  return NOTE_NAME_TABLE[midiNumber % NOTES_PER_OCTAVE];
+  return NOTE_NAME_TABLE[mod(midiNumber, NOTES_PER_OCTAVE)];
 }
 
 /* Get all indices that belong to note symbols. */
@@ -34,7 +34,7 @@ export function getNoteIndices() {
 
 /* Get shift symbol. */
 export function getShiftSymbol(offset) {
-  return NOTE_OFFSET_NAME_TABLE[offset % NOTES_PER_OCTAVE];
+  return NOTE_OFFSET_NAME_TABLE[mod(offset, NOTES_PER_OCTAVE)];
 }
 
 /* Get all indices that belong to shift symbols. */
@@ -52,7 +52,7 @@ export function getAllMidiNumbers() {
 
 /* Wrap midi around the grid. */
 export function wrapMidiNumber(midiNumber) {
-  return (midiNumber - MIDI_START) % MIDI_RANGE + MIDI_START;
+  return mod(midiNumber - MIDI_START, MIDI_RANGE) + MIDI_START;
 }
 
 /* Obtain the octave from midi number. */
@@ -70,4 +70,10 @@ export function printMidi(midiNumber) {
   const fullNoteName = getFullNoteName(midiNumber);
   const freqStr = getFreqFromMidiNumber(midiNumber).toFixed(2) + "Hz";
   console.log("Note: " + midiNumber.toString(), fullNoteName, freqStr);
+}
+
+/* Modulo function that behaves consistently in the negatives. 
+Source: https://stackoverflow.com/a/17323608 */
+function mod(n, m) {
+  return ((n % m) + m) % m;
 }

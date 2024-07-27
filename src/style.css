@@ -135,7 +135,11 @@ body {
   height: 50px;
   justify-content: center;
   align-items: center;
-  transition: box-shadow 0.8s, background-color 0.8s!important;
+  transition: border-color 0.5s, box-shadow 0.8s, background-color 0.8s!important;
+}
+.action-button:hover {
+  border-color: var(--border-highlight-color);
+  transition: border-color 0s!important;
 }
 .action-button:active {
   background-color: white;
@@ -145,11 +149,11 @@ body {
 
 .note {
   /* height: 50px; */
-  transition: background-color 7s, box-shadow 7s!important;
+  transition: border-color 0.5s, background-color 7s, box-shadow 7s!important;
   color: var(--interact-color);
 }
 .note:hover {
-  transition: border-color 0s;
+  transition: border-color 0s, background-color 7s!important;
 }
 .note:active {
   background-color: var(--root-note-color);
@@ -158,9 +162,14 @@ body {
 
 .light-up {
   background-color: var(--activated-note-color);
-  transition: all 0s !important;
+  transition: all 0s!important;
+}
+
+.light-up-root {
+  background-color: var(--root-note-color);
+  transition: all 0s!important;
 }
 
 .chordroot {
-  background-color: var(--root-note-color) !important;
+  background-color: var(--root-note-color)!important;
 }
