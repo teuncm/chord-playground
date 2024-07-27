@@ -150,7 +150,7 @@ export function bell(bellFrequency) {
   // console.log(timestamps);
 
   oscillator.start(MyAudioState.now());
-  oscillator.stop(MyAudioState.now() + 0.1);
+  oscillator.stop(MyAudioState.now() + 0.15);
 }
 
 /* Create basic Delay-Attack-Hold-Decay envelope. */

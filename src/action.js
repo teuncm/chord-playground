@@ -27,57 +27,68 @@ export function actionRandomize() {
 }
 
 export function actionFull() {
-  return;
+  const chord = mySynthState.chord;
+  /* Do nothing if scale is empty! */
+  if (!chord.length) {
+    return;
+  }
+
+  const octaveOffset = random(OCTAVE_START, OCTAVE_END - 1);
+
+  for (let j = 0; j < chord.length; j++) {
+    const noteOffset = chord[j];
+    const chordShift = mySynthState.chordShift;
+    const midiNumber = wrapMidiNumber(octaveOffset * NOTES_PER_OCTAVE + chordShift + noteOffset);
+    const freq = mySynthState.transformMidiNumber(midiNumber);
+
+    setTimeout(() => {
+      lightUpNote(midiNumber);
+
+      bell(freq);
+    }, 0.2);
+  }
 }
 
 export function actionRandom() {
-  const scale = getScale();
+  const chord = mySynthState.chord;
   /* Do nothing if scale is empty! */
-  if (!scale.length) {
+  if (!chord.length) {
     return;
   }
 
   for (let i = 0; i < RANDOM_NOTE_COUNT; i++) {
-    const octaveOffset = random(OCTAVE_START, OCTAVE_END + 1);
-    const noteOffset = sample(scale);
-    const key = getKey();
-    const midiNumber = wrapMidiNumber(octaveOffset * NOTES_PER_OCTAVE + key + noteOffset);
-    const freq = mySynthState.getFreqFromMidiNumber(midiNumber);
+    const octaveOffset = random(OCTAVE_START, OCTAVE_END - 1);
+    const noteOffset = sample(chord);
+    const chordShift = mySynthState.chordShift;
+    const midiNumber = wrapMidiNumber(octaveOffset * NOTES_PER_OCTAVE + chordShift + noteOffset);
+    const freq = mySynthState.transformMidiNumber(midiNumber);
 
-    const button = document.getElementById("note-" + midiNumber);
-    button.classList.add('light-up');
-    setTimeout(() => {
-      button.classList.remove('light-up');
-    }, 100);
+    lightUpNote(midiNumber);
 
     bell(freq);
   }
 }
 
 export function actionUp() {
-  const scale = getScale();
+  const chord = mySynthState.chord;
   /* Do nothing if scale is empty! */
-  if (!scale.length) {
+  if (!chord.length) {
     return;
   }
 
-  for (let i = 0; i < OCTAVE_RANGE + 1; i++) {
+  for (let i = 0; i < OCTAVE_RANGE; i++) {
     const octaveOffset = i + OCTAVE_START;
 
-    for (let j = 0; j < scale.length; j++) {
-      const noteOffset = scale[j];
-      const key = getKey();
-      const midiNumber = wrapMidiNumber(octaveOffset * NOTES_PER_OCTAVE + key + noteOffset);
-      const freq = getFreqFromMidiNumber(midiNumber);
+    for (let j = 0; j < chord.length; j++) {
+      const noteOffset = chord[j];
+      const chordShift = mySynthState.chordShift;
+      const midiNumber = wrapMidiNumber(octaveOffset * NOTES_PER_OCTAVE + chordShift + noteOffset);
+      const freq = mySynthState.transformMidiNumber(midiNumber);
 
-      const timeout = (i * scale.length + j) * ARP_SPEED;
+      const timeout = (i * chord.length + j) * ARP_SPEED;
 
       setTimeout(() => {
-        const button = document.getElementById("note-" + midiNumber);
-        button.classList.add('light-up');
-        setTimeout(() => {
-          button.classList.remove('light-up');
-        }, 100);
+        lightUpNote(midiNumber);
 
         bell(freq);
       }, timeout);
@@ -86,55 +97,31 @@ export function actionUp() {
 }
 
 export function actionDown() {
-  const scale = getScale();
+  const chord = mySynthState.chord;
   /* Do nothing if scale is empty! */
-  if (!scale.length) {
+  if (!chord.length) {
     return;
   }
 
-  for (let i = 0; i < OCTAVE_RANGE + 1; i++) {
+  for (let i = 0; i < OCTAVE_RANGE; i++) {
     const octaveOffset = i + OCTAVE_START;
 
-    for (let j = 0; j < scale.length; j++) {
-      const noteOffset = scale[j];
-      const key = getKey();
-      const midiNumber = wrapMidiNumber(octaveOffset * NOTES_PER_OCTAVE + key + noteOffset);
-      const freq = getFreqFromMidiNumber(midiNumber);
+    for (let j = 0; j < chord.length; j++) {
+      const noteOffset = chord[j];
+      const chordShift = mySynthState.chordShift;
+      const midiNumber = wrapMidiNumber(octaveOffset * NOTES_PER_OCTAVE + chordShift + noteOffset);
+      const freq = mySynthState.transformMidiNumber(midiNumber);
 
-      const timeout = ((OCTAVE_RANGE - i) * scale.length + (scale.length - 1 - j)) * ARP_SPEED;
+      const timeout = ((OCTAVE_RANGE - 1 - i) * chord.length + (chord.length - 1 - j)) * ARP_SPEED;
 
       setTimeout(() => {
-        const button = document.getElementById("note-" + midiNumber);
-        button.classList.add('light-up');
-        setTimeout(() => {
-          button.classList.remove('light-up');
-        }, 100);
+        lightUpNote(midiNumber);
 
         bell(freq);
       }, timeout);
     }
   }
 }
-
-// export function playNote(midiNumber) {
-//   for (let chordNote of synthState.chord) {
-//     const shift = chordNote == synthState.chordRoot ? 0 : synthState.chordShift;
-//     const offsetMidi = midiNumber + (chordNote - synthState.chordRoot) + shift;
-
-//     const freq = getFreqFromMidiNumber(offsetMidi);
-//     bell(freq);
-
-//     if (chordNote == synthState.chordRoot) {
-//       continue;
-//     }
-
-//     const button = document.getElementById("note-" + offsetMidi);
-//     button.classList.add('light-up');
-//     setTimeout(() => {
-//       button.classList.remove('light-up');
-//     }, 100);
-//   }
-// }
 
 export function playNote(midiNumber) {
   for (let chordNote of mySynthState.chord) {
