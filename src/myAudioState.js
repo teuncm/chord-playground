@@ -1,7 +1,6 @@
 import { AUDIO_SCHEDULING_GLOBAL_OFFSET } from "./constants";
 import { setNodeProp, setNodeProps } from "./helpers";
 import { zip, random } from 'lodash';
-import { MyAudioEffectChain, MyAudioEffectChainMix } from "./myAudioEffectChain";
 import { MyAudioEffectLane, MyAudioEffectRack } from "./myAudioEffect";
 
 export class MyAudioState {
@@ -151,7 +150,7 @@ export function bell(bellFrequency) {
   // console.log(timestamps);
 
   oscillator.start(MyAudioState.now());
-  oscillator.stop(MyAudioState.now() + 0.3);
+  oscillator.stop(MyAudioState.now() + 0.1);
 }
 
 /* Create basic Delay-Attack-Hold-Decay envelope. */

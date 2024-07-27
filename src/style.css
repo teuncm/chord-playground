@@ -128,11 +128,11 @@ body {
 }
 
 .action-button {
-  font-size: 2em;
+  font-size: 1.6em;
   display: flex;
   border-radius: 50%;
-  margin: 20px;
-  height: 60px;
+  margin: 6px;
+  height: 50px;
   justify-content: center;
   align-items: center;
   transition: box-shadow 0.8s, background-color 0.8s!important;

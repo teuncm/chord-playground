@@ -1,6 +1,6 @@
 /*--- Audio constants. ---*/
 /* In seconds. */
-export const AUDIO_SCHEDULING_GLOBAL_OFFSET = 0.060;
+export const AUDIO_SCHEDULING_GLOBAL_OFFSET = 0.100;
 
 /*--- Action constants. ---*/
 export const NOTES_PER_OCTAVE = 12;
