@@ -131,8 +131,8 @@ body {
   font-size: 1.6em;
   display: flex;
   border-radius: 50%;
-  margin: 6px;
-  height: 50px;
+  margin: 5px;
+  height: 45px;
   justify-content: center;
   align-items: center;
   transition: border-color 0.5s, box-shadow 0.8s, background-color 0.8s!important;
