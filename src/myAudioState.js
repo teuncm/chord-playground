@@ -26,13 +26,13 @@ export class MyAudioState {
   /* Construct and connect the effect chain. */
   static constructEffectChain() {
     const delayNodeLeft = setNodeProps(this.audioCtx.createDelay(), {
-      delayTime: 0.3
+      delayTime: 0.2
     });
     const delayNodeRight = setNodeProps(this.audioCtx.createDelay(), {
-      delayTime: 0.3
+      delayTime: 0.2
     });
     const feedbackNode = setNodeProps(this.audioCtx.createGain(), {
-      gain: 0.9
+      gain: 0.6
     });
     const mergerNode = this.audioCtx.createChannelMerger(2);
 
@@ -48,7 +48,7 @@ export class MyAudioState {
     });
 
     const pingpongWet = setNodeProps(this.audioCtx.createGain(), {
-      gain: 0.7
+      gain: 0.5
     });
 
     mergerNode.connect(pingpongWet);
@@ -70,7 +70,7 @@ export class MyAudioState {
     });
 
     const reverbWet = setNodeProps(this.audioCtx.createGain(), {
-      gain: 0.8
+      gain: 0.7
     });
 
     const highPass = setNodeProps(this.audioCtx.createBiquadFilter(), {
@@ -81,12 +81,13 @@ export class MyAudioState {
     });
 
     const reverbEffect = new MyAudioEffectRack([
-      new MyAudioEffectLane([pingpongEffect, reverbNode, highPass, reverbWet]),
+      new MyAudioEffectLane([reverbNode, highPass, reverbWet]),
       reverbDry
     ]);
 
     /* Effect chain. */
     const effects = new MyAudioEffectLane([
+      pingpongEffect,
       reverbEffect,
       setNodeProps(this.audioCtx.createBiquadFilter(), {
         type: "highshelf",
