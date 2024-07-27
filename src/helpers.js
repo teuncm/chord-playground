@@ -1,5 +1,26 @@
 import { NOTES_PER_OCTAVE, MIDI_START, MIDI_RANGE, OCTAVE_START, OCTAVE_END, NOTE_NAME_TABLE, NOTE_OFFSET_NAME_TABLE } from "./constants";
 import { range, map } from "lodash";
+import { MyAudioState } from "./myAudioState";
+
+/* Set multiple properties on an audio node. */
+export function setNodeProps(node, props) {
+  for (const [prop, value] of Object.entries(props)) {
+    setNodeProp(node, prop, value);
+  }
+
+  return node;
+}
+
+/* Set a property on an audio node. */
+export function setNodeProp(node, prop, value, timestamp=MyAudioState.now()) {
+  if (node[prop] instanceof AudioParam) {
+    node[prop].setValueAtTime(value, timestamp);
+  } else {
+    node[prop] = value;
+  }
+
+  return node;
+}
 
 /* Get note symbol / pitch class symbol. */
 export function getNoteSymbol(midiNumber) {

@@ -146,6 +146,7 @@ body {
 .note {
   /* height: 50px; */
   transition: background-color 7s, box-shadow 7s!important;
+  color: var(--interact-color);
 }
 .note:hover {
   transition: border-color 0s;

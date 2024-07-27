@@ -3,7 +3,7 @@ import { wrapMidiNumber } from "./helpers";
 import { reactive } from 'vue';
 
 /* Synth parameters. */
-class SynthState {
+class MySynthState {
   /* In Hz. */
   baseTuning = DEFAULT_BASE_TUNING;
 
@@ -31,4 +31,4 @@ class SynthState {
 }
 
 /* Reactive synth object. */
-export const synthState = reactive(new SynthState());
+export const mySynthState = reactive(new MySynthState());

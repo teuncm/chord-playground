@@ -1,22 +1,22 @@
 <script>
 import { getNoteSymbol, getNoteIndices } from '../helpers';
-import { synthState } from '../synthState';
+import { mySynthState } from '../mySynthState';
 import { computed } from 'vue';
 import { sample } from 'lodash';
 
 export default {
   setup() {
     const chord = computed({
-      get: () => synthState.chord,
+      get: () => mySynthState.chord,
       set: (value) => {
-        synthState.chord = value.map(Number);
-        if (!synthState.chord.includes(synthState.chordRoot)) {
-          synthState.chordRoot = sample(synthState.chord);
+        mySynthState.chord = value.map(Number);
+        if (!mySynthState.chord.includes(mySynthState.chordRoot)) {
+          mySynthState.chordRoot = sample(mySynthState.chord);
         }
       }
     });
 
-    const chordRoot = computed(() => synthState.chordRoot);
+    const chordRoot = computed(() => mySynthState.chordRoot);
 
     return {
       chord,

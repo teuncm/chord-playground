@@ -1,14 +1,14 @@
 <script>
 import { computed } from 'vue';
 import { getShiftSymbol, getShiftIndices } from '../helpers';
-import { synthState } from '../synthState';
+import { mySynthState } from '../mySynthState';
 
 export default {
   setup() {
     const chordShift = computed({
-      get: () => synthState.chordShift,
+      get: () => mySynthState.chordShift,
       set: (value) => {
-        synthState.chordShift = parseInt(value);
+        mySynthState.chordShift = parseInt(value);
       }
     });
 

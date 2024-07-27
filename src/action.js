@@ -1,7 +1,7 @@
 import { OCTAVE_START, OCTAVE_END, NOTES_PER_OCTAVE, OCTAVE_RANGE, MAX_TUNING_OFFSET } from "./constants";
-import { getFreqFromMidiNumber, wrapMidiNumber } from "./helpers"
-import { synthState } from "./synthState";
-import { bell } from "./audioState";
+import { wrapMidiNumber } from "./helpers"
+import { mySynthState } from "./mySynthState";
+import { bell } from "./myAudioState";
 import { random, sample } from "lodash"
 
 export const RANDOM_NOTE_COUNT = 6;
@@ -20,10 +20,14 @@ export function actionRandomize() {
   let chordRoot = sample(chord);
   let tuningOffset = random(-MAX_TUNING_OFFSET, MAX_TUNING_OFFSET);
 
-  synthState.chordShift = chordShift;
-  synthState.chord = chord;
-  synthState.chordRoot = chordRoot;
-  synthState.tuningOffset = tuningOffset;
+  mySynthState.chordShift = chordShift;
+  mySynthState.chord = chord;
+  mySynthState.chordRoot = chordRoot;
+  mySynthState.tuningOffset = tuningOffset;
+}
+
+export function actionFull() {
+  return;
 }
 
 export function actionRandom() {
@@ -38,7 +42,7 @@ export function actionRandom() {
     const noteOffset = sample(scale);
     const key = getKey();
     const midiNumber = wrapMidiNumber(octaveOffset * NOTES_PER_OCTAVE + key + noteOffset);
-    const freq = getFreqFromMidiNumber(midiNumber);
+    const freq = mySynthState.getFreqFromMidiNumber(midiNumber);
 
     const button = document.getElementById("note-" + midiNumber);
     button.classList.add('light-up');
@@ -133,14 +137,15 @@ export function actionDown() {
 // }
 
 export function playNote(midiNumber) {
-  for (let chordNote of synthState.chord) {
-    const shift = chordNote == synthState.chordRoot ? 0 : synthState.chordShift;
-    const offsetMidi = midiNumber + (chordNote - synthState.chordRoot) + shift;
+  for (let chordNote of mySynthState.chord) {
+    const shift = chordNote == mySynthState.chordRoot ? 0 : mySynthState.chordShift;
+    const offsetMidi = midiNumber + (chordNote - mySynthState.chordRoot) + shift;
 
-    const freq = synthState.transformMidiNumber(offsetMidi);
+    const freq = mySynthState.transformMidiNumber(offsetMidi);
+
     bell(freq);
 
-    if (chordNote == synthState.chordRoot) {
+    if (chordNote == mySynthState.chordRoot) {
       continue;
     }
 

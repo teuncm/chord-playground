@@ -1,14 +1,14 @@
 <script>
 import { computed } from 'vue';
-import { synthState } from '../synthState';
+import { mySynthState } from '../mySynthState';
 import { MAX_TUNING_OFFSET } from '../constants';
 
 export default {
   setup() {
     const tuningOffset = computed({
-      get: () => synthState.tuningOffset,
+      get: () => mySynthState.tuningOffset,
       set: (value) => {
-        synthState.tuningOffset = parseInt(value);
+        mySynthState.tuningOffset = parseInt(value);
       }
     });
 
