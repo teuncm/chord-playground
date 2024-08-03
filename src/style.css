@@ -29,6 +29,10 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+sup, sub {
+  color: var(--interact-color);
+}
+
 html, body {
   margin: 0;
   padding: 0;

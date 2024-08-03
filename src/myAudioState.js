@@ -97,9 +97,9 @@ export class MyAudioState {
       }),
       setNodeProps(this.audioCtx.createDynamicsCompressor(), {
         threshold: -30,
-        ratio: 5,
-        attack: 0.1,
-        release: 0.1
+        ratio: 6,
+        attack: 0,
+        release: 0.3
       }),
       setNodeProps(this.audioCtx.createWaveShaper(), {
         curve: new Float32Array([-1, 1])

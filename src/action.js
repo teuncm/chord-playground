@@ -56,7 +56,7 @@ export function actionRandom() {
     return;
   }
 
-  for (let i = 0; i < RANDOM_NOTE_COUNT; i++) {
+  for (let i = 0; i < chord.length; i++) {
     const octaveOffset = random(OCTAVE_START, OCTAVE_END - 1);
     const noteOffset = sample(chord);
     const chordShift = mySynthState.chordShift;
