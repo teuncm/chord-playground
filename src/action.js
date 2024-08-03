@@ -1,11 +1,8 @@
-import { OCTAVE_START, OCTAVE_END, NOTES_PER_OCTAVE, OCTAVE_RANGE, MAX_TUNING_OFFSET, MIDI_RANGE, MIDI_START } from "./constants";
+import { OCTAVE_START, OCTAVE_END, NOTES_PER_OCTAVE, OCTAVE_RANGE, MAX_TUNING_OFFSET, MIDI_RANGE, MIDI_START, ARP_SPEED } from "./constants";
 import { wrapMidiNumber } from "./helpers"
 import { mySynthState } from "./mySynthState";
 import { bell } from "./myAudioState";
 import { random, sample } from "lodash"
-
-export const RANDOM_NOTE_COUNT = 6;
-export const ARP_SPEED = 125;
 
 /* Randomize the playground parameters. */
 export function actionRandomize() {

@@ -1,5 +1,5 @@
 /*--- Audio constants. ---*/
-/* In seconds. */
+/* Seconds */
 export const AUDIO_SCHEDULING_GLOBAL_OFFSET = 0.100;
 
 /*--- Action constants. ---*/
@@ -13,25 +13,31 @@ export const MIDI_START = OCTAVE_START * NOTES_PER_OCTAVE;
 export const MIDI_END = (OCTAVE_END - 1) * NOTES_PER_OCTAVE + NOTES_PER_OCTAVE;
 export const MIDI_RANGE = MIDI_END - MIDI_START;
 
-export const RANDOM_NOTE_COUNT = 6;
+/* Milliseconds */
 export const ARP_SPEED = 125;
+/* Seconds */
 export const DELAY_TIME = 0.3;
 
 /*--- Synth constants. ---*/
+/* A4 MIDI number, unitless */
 export const MIDI_OFFSET = 69;
 
-/* In Hz. */
+/* Hz */
 export const DEFAULT_BASE_TUNING = 440;
+
+/* Cents */
 export const DEFAULT_TUNING_OFFSET = 0;
 export const MAX_TUNING_OFFSET = 50;
 
+/* Semitones */
 export const DEFAULT_CHORD = [0, 4, 7];
 export const DEFAULT_CHORD_ROOT = 0;
 export const DEFAULT_CHORD_SHIFT = 0;
 
+/* Octaves */
 export const DEFAULT_OCTAVE_SHIFT = 0;
 
-/* Table of standard note names using sharps. */
+/* Table of standard note names using sharps only. */
 export const NOTE_NAME_TABLE = {
   0: "C",
   1: "C♯",
