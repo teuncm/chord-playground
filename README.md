@@ -1,31 +1,13 @@
 # Chord Playground
 
-[Live demo](https://teuncm.github.io/chord-playground/)
+### [Live demo](https://teuncm.github.io/chord-playground/)
 
-Playground to explore the feeling of musical chords, scales, inversion and key changes.
+Interactive playground to explore the feeling of musical chords, scales, inversion and key changes.
 
-### To do
+### Functionality
 
-Buttons
-- [x] Enable key selector
-- [x] Enable scale selector
-- [x] Add triggered note highlights
-- [ ] Add tuning control
-- [x] Add up/down strum buttons
-- [ ] Add chord lock
-- [ ] Invert chord selection: use accidentals instead
-
-Effects
-- [x] Add compressor
-- [ ] Add delay dry/wet
-- [x] Add reverb dry/wet
-- [x] Add reverb
-- [x] Add reverb filter
-- [x] Add bell filter
-
-Synth
-- [ ] Make bell stereo
-- [x] Make bell prettier
-
-Styling
-- [ ] Make it look better on small screens
+- Action selector: apply a chord action across the entire note pad
+- Chord selector: select notes of chord and chord root
+- Shift selector: select shift applied to chord
+- Note pad: clicking on the pad creates a chord anchored to the chord root
+- Tuning selector: change the tuning of the synthesizer by a maximum of 50 cents
