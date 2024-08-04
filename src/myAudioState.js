@@ -115,7 +115,9 @@ export class MyAudioState {
     return this.audioCtx.sampleRate;
   }
 
-  /* Return current audio context timestamp. */
+  /* Return current audio context timestamp. 
+  Important: add constant offset to ease browser event scheduling
+  and reduce audio glitches. */
   static now() {
     return MyAudioState.audioCtx.currentTime + AUDIO_SCHEDULING_GLOBAL_OFFSET;
   }
@@ -204,7 +206,9 @@ export function rampPropAt(node, prop, value, timestamp) {
   return node;
 }
 
-/* Generate noise buffer for basic reverb convolutions. */
+/* Generate noise buffer for basic reverb convolutions. 
+Warning: convolution is a very expensive operation, see e.g. 
+https://dvcs.w3.org/hg/audio/raw-file/tip/webaudio/convolution.html) */
 function createConvBuffer(convDelay, convDuration, numChannels) {
   const sampleRate = MyAudioState.sampleRate();
   const convBuffer = MyAudioState.audioCtx.createBuffer(numChannels, convDuration * sampleRate, sampleRate);

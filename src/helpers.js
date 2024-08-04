@@ -3,7 +3,7 @@
  */
 
 import { NOTES_PER_OCTAVE, MIDI_START, MIDI_RANGE, OCTAVE_START, OCTAVE_END, NOTE_NAME_TABLE, NOTE_OFFSET_NAME_TABLE, FREQ_A4, MIDI_A4 } from "./constants";
-import { range, map } from "lodash";
+import { sortBy, range, map, filter, flatten } from "lodash";
 import { MyAudioState } from "./myAudioState";
 import { mySynthState } from "./mySynthState";
 
@@ -47,7 +47,7 @@ export function getShiftIndices() {
   return Object.keys(NOTE_OFFSET_NAME_TABLE);
 }
 
-/* Get all midi over all octaves. */
+/* Get all midi over all octaves in a 2D grid. */
 export function getAllMidiNumbers() {
   const octaves = range(OCTAVE_START, OCTAVE_END);
   const allMidi = map(octaves, (octave) => range(octave*NOTES_PER_OCTAVE, octave*NOTES_PER_OCTAVE + NOTES_PER_OCTAVE));
@@ -55,15 +55,38 @@ export function getAllMidiNumbers() {
   return allMidi;
 }
 
+/* Filter all midi numbers such that only chord notes are left. */
+export function filterMidiNumbers(chord) {
+  const allMidi = flatten(getAllMidiNumbers());
+  const filteredMidi = filter(allMidi, (midi) => chord.includes(mod(midi, NOTES_PER_OCTAVE)));
+
+  return filteredMidi;
+}
+
 /* Wrap midi around the grid. */
-export function wrapMidiNumber(midiNumber) {
+export function wrapMidiNumberGrid(midiNumber) {
   return mod(midiNumber - MIDI_START, MIDI_RANGE) + MIDI_START;
 }
 
-export function transformMidiNumber(midiNumber) {
-  const transformedMidiNumber = wrapMidiNumber(midiNumber);
+/* Wrap midi around an octave. */
+export function wrapMidiNumberOctave(midiNumber, cur_octave) {
+  return mod(midiNumber - cur_octave*NOTES_PER_OCTAVE, NOTES_PER_OCTAVE) + cur_octave*NOTES_PER_OCTAVE;
+}
 
-  return getFreqFromMidiNumber(transformedMidiNumber);
+/* Shift all midi numbers by a certain amount. */
+export function shiftMidiNumbers(midiNumbers, shift) {
+  const shiftedMidiNumbers = map(midiNumbers, (midi) => wrapMidiNumberGrid(midi + shift));
+  const sortedMidiNumbers = sortBy(shiftedMidiNumbers);
+  
+  return sortedMidiNumbers;
+}
+
+/* Convenience function to combine grid wrapping and frequency conversion. */
+export function transformMidiNumber(midiNumber) {
+  const transformedMidiNumber = wrapMidiNumberGrid(midiNumber);
+  const freq = getFreqFromMidiNumber(transformedMidiNumber);
+
+  return freq;
 }
 
 /* Get oscillator frequency from midi number based on 12-TET system, standard concert pitch and current tuning offset. */

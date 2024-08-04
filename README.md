@@ -14,7 +14,8 @@ Interactive playground to explore the feeling of musical chords, scales, inversi
 
 ### To do
 
-- [ ] Make circle button note triggers always span one octave only
-- [ ] Make arp up/down note triggers always in midi order, starting from the correct octave
+- [x] Make circle button note triggers always span one octave only
+- [x] Make arp up/down note triggers always in midi order, starting from the correct octave
 - [ ] Make individual note triggers take into account last pressed action button for extra effects
-- [ ] Make synth nicer :)
+- [ ] Shift individual note triggers by actual textual value
+- [ ] Make synth sound nicer :)

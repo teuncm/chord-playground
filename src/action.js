@@ -2,11 +2,11 @@
  * Functions that are triggered by user actions.
  */
 
-import { OCTAVE_START, OCTAVE_END, NOTES_PER_OCTAVE, OCTAVE_RANGE, MAX_TUNING_OFFSET, MIDI_RANGE, MIDI_START, ARP_SPEED } from "./constants";
-import { wrapMidiNumber, transformMidiNumber } from "./helpers"
+import { OCTAVE_START, OCTAVE_END, NOTES_PER_OCTAVE, MAX_TUNING_OFFSET, ARP_SPEED } from "./constants";
+import { shiftMidiNumbers, wrapMidiNumberGrid, transformMidiNumber, filterMidiNumbers, wrapMidiNumberOctave } from "./helpers"
 import { mySynthState } from "./mySynthState";
 import { bell } from "./myAudioState";
-import { random, sample } from "lodash"
+import { random, sample, reverse } from "lodash"
 
 /* Randomize the playground parameters. */
 export function actionRandomize() {
@@ -27,7 +27,10 @@ export function actionRandomize() {
   mySynthState.tuningOffset = tuningOffset;
 }
 
+/* Play the full chord over one random octave. */
 export function actionFull() {
+  mySynthState.octaveShift = 0;
+
   const chord = mySynthState.chord;
   /* Do nothing if scale is empty! */
   if (!chord.length) {
@@ -39,7 +42,7 @@ export function actionFull() {
   for (let j = 0; j < chord.length; j++) {
     const noteOffset = chord[j];
     const chordShift = mySynthState.chordShift;
-    const midiNumber = wrapMidiNumber(octaveOffset * NOTES_PER_OCTAVE + chordShift + noteOffset);
+    const midiNumber = wrapMidiNumberOctave(octaveOffset * NOTES_PER_OCTAVE + chordShift + noteOffset, octaveOffset);
     const freq = transformMidiNumber(midiNumber);
 
     lightUpNote(midiNumber);
@@ -48,7 +51,10 @@ export function actionFull() {
   }
 }
 
+/* Select random notes from chord. */
 export function actionRandom() {
+  mySynthState.octaveShift = null;
+
   const chord = mySynthState.chord;
   /* Do nothing if scale is empty! */
   if (!chord.length) {
@@ -59,7 +65,7 @@ export function actionRandom() {
     const octaveOffset = random(OCTAVE_START, OCTAVE_END - 1);
     const noteOffset = sample(chord);
     const chordShift = mySynthState.chordShift;
-    const midiNumber = wrapMidiNumber(octaveOffset * NOTES_PER_OCTAVE + chordShift + noteOffset);
+    const midiNumber = wrapMidiNumberGrid(octaveOffset * NOTES_PER_OCTAVE + chordShift + noteOffset);
     const freq = transformMidiNumber(midiNumber);
 
     lightUpNote(midiNumber);
@@ -68,64 +74,61 @@ export function actionRandom() {
   }
 }
 
+/* Arpeggiate over all octaves, upwards. */
 export function actionUp() {
+  mySynthState.octaveShift = 1;
+
   const chord = mySynthState.chord;
-  /* Do nothing if scale is empty! */
+  /* Do nothing if scale is empty. */
   if (!chord.length) {
     return;
   }
 
-  for (let i = 0; i < OCTAVE_RANGE; i++) {
-    const octaveOffset = i + OCTAVE_START;
+  const filteredMidiNumbers = filterMidiNumbers(chord);
+  const shiftedMidiNumbers = shiftMidiNumbers(filteredMidiNumbers, mySynthState.chordShift);
 
-    for (let j = 0; j < chord.length; j++) {
-      const noteOffset = chord[j];
-      const chordShift = mySynthState.chordShift;
-      const midiNumber = wrapMidiNumber(octaveOffset * NOTES_PER_OCTAVE + chordShift + noteOffset);
-      const freq = transformMidiNumber(midiNumber);
-
-      const timeout = (i * chord.length + j) * ARP_SPEED;
-
-      setTimeout(() => {
-        lightUpNote(midiNumber);
-
-        bell(freq);
-      }, timeout);
-    }
-  }
+  arp(shiftedMidiNumbers);
 }
 
+/* Arpeggiate over all octaves, downwards. */
 export function actionDown() {
+  mySynthState.octaveShift = -1;
+
   const chord = mySynthState.chord;
-  /* Do nothing if scale is empty! */
+  /* Do nothing if scale is empty. */
   if (!chord.length) {
     return;
   }
 
-  for (let i = 0; i < OCTAVE_RANGE; i++) {
-    const octaveOffset = i + OCTAVE_START;
+  const filteredMidiNumbers = filterMidiNumbers(chord);
+  const shiftedMidiNumbers = shiftMidiNumbers(filteredMidiNumbers, mySynthState.chordShift);
+  const reversedMidiNumbers = reverse(shiftedMidiNumbers);
 
-    for (let j = 0; j < chord.length; j++) {
-      const noteOffset = chord[j];
-      const chordShift = mySynthState.chordShift;
-      const midiNumber = wrapMidiNumber(octaveOffset * NOTES_PER_OCTAVE + chordShift + noteOffset);
-      const freq = transformMidiNumber(midiNumber);
+  arp(reversedMidiNumbers);
+}
 
-      const timeout = ((OCTAVE_RANGE - 1 - i) * chord.length + (chord.length - 1 - j)) * ARP_SPEED;
+/* Arpeggiate over a list of midi numbers. */
+export function arp(midiNumbers) {
+  for (let i = 0; i < midiNumbers.length; i++) {
+    const midiNumber = midiNumbers[i];
+    const freq = transformMidiNumber(midiNumber);
 
-      setTimeout(() => {
-        lightUpNote(midiNumber);
+    const timeout = i * ARP_SPEED;
 
-        bell(freq);
-      }, timeout);
-    }
+    setTimeout(() => {
+      lightUpNote(midiNumber);
+
+      bell(freq);
+    }, timeout);
   }
 }
 
+/* Play a note and its corresponding chord when clicking on the grid. 
+Note that this function changes effect based on previous actions. */
 export function playNote(midiNumber) {
   for (let chordNote of mySynthState.chord) {
     const shift = chordNote == mySynthState.chordRoot ? 0 : mySynthState.chordShift;
-    const offsetMidi = wrapMidiNumber(midiNumber + (chordNote - mySynthState.chordRoot) + shift);
+    const offsetMidi = wrapMidiNumberGrid(midiNumber + (chordNote - mySynthState.chordRoot) + shift);
     const freq = transformMidiNumber(offsetMidi);
 
     bell(freq);
