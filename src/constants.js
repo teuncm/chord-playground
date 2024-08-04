@@ -20,10 +20,10 @@ export const DELAY_TIME = 0.3;
 
 /*--- Synth constants. ---*/
 /* A4 MIDI number, unitless */
-export const MIDI_OFFSET = 69;
+export const MIDI_A4 = 69;
 
 /* Hz */
-export const DEFAULT_BASE_TUNING = 440;
+export const FREQ_A4 = 440;
 
 /* Cents */
 export const DEFAULT_TUNING_OFFSET = 0;

@@ -38,11 +38,9 @@ export function actionFull() {
     const midiNumber = wrapMidiNumber(octaveOffset * NOTES_PER_OCTAVE + chordShift + noteOffset);
     const freq = mySynthState.transformMidiNumber(midiNumber);
 
-    setTimeout(() => {
-      lightUpNote(midiNumber);
+    lightUpNote(midiNumber);
 
-      bell(freq);
-    }, 0.2);
+    bell(freq);
   }
 }
 
