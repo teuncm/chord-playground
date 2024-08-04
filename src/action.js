@@ -6,7 +6,7 @@ import { OCTAVE_START, OCTAVE_END, NOTES_PER_OCTAVE, MAX_TUNING_OFFSET, ARP_SPEE
 import { getFreqFromMidiNumber, shiftMidiNumbers, wrapMidiNumberGrid, transformMidiNumber, filterMidiNumbers, wrapMidiNumberOctave } from "./helpers"
 import { mySynthState } from "./mySynthState";
 import { bell } from "./myAudioState";
-import { random, sample, reverse } from "lodash"
+import { random, sample, reverse, sortBy } from "lodash"
 
 /* Randomize the playground parameters. */
 export function actionRandomize() {
@@ -127,15 +127,16 @@ export function arp(midiNumbers) {
 Note that this function changes effect based on previous actions
 that set octaveShift. */
 export function playNote(midiNumber) {
-  const chord = mySynthState.chord;
+  const chord = sortBy(mySynthState.chord);
   /* Do nothing if scale is empty. */
   if (!chord.length) {
     return;
   }
 
   const rootIdx = chord.indexOf(mySynthState.chordRoot);
-  const octaveShift = mySynthState.octaveShift;
+  const octaveShift = mySynthState.octaveShift;  
 
+  /* Play the chord, anchor on chord root. */
   for (let i = 0; i < chord.length; i++) {
     const chordNote = chord[i];
     
@@ -145,15 +146,17 @@ export function playNote(midiNumber) {
     /* Shift only non-root notes. */
     const shiftEnabler = i == rootIdx ? 0 : 1;
 
+    /* Shift non-root notes horizontally. */
     const curShift = mySynthState.chordShift * shiftEnabler;
     
+    /* Shift non-root notes vertically. */
     let curOctaveShift = null;
     if (octaveShift !== null) {
       curOctaveShift = octaveShift * rootOffsetIdx;
     } else {
       curOctaveShift = random(0, OCTAVE_RANGE);
     }
-    curOctaveShift *= shiftEnabler;
+    curOctaveShift *= shiftEnabler;    
 
     const offsetMidi = wrapMidiNumberGrid(midiNumber + (chordNote - mySynthState.chordRoot) + curShift + curOctaveShift * NOTES_PER_OCTAVE);
     const freq = transformMidiNumber(offsetMidi);
