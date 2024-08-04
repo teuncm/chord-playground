@@ -2,8 +2,8 @@
  * Functions that are triggered by user actions.
  */
 
-import { OCTAVE_START, OCTAVE_END, NOTES_PER_OCTAVE, MAX_TUNING_OFFSET, ARP_SPEED } from "./constants";
-import { shiftMidiNumbers, wrapMidiNumberGrid, transformMidiNumber, filterMidiNumbers, wrapMidiNumberOctave } from "./helpers"
+import { OCTAVE_START, OCTAVE_END, NOTES_PER_OCTAVE, MAX_TUNING_OFFSET, ARP_SPEED, OCTAVE_RANGE } from "./constants";
+import { getFreqFromMidiNumber, shiftMidiNumbers, wrapMidiNumberGrid, transformMidiNumber, filterMidiNumbers, wrapMidiNumberOctave } from "./helpers"
 import { mySynthState } from "./mySynthState";
 import { bell } from "./myAudioState";
 import { random, sample, reverse } from "lodash"
@@ -43,7 +43,7 @@ export function actionFull() {
     const noteOffset = chord[j];
     const chordShift = mySynthState.chordShift;
     const midiNumber = wrapMidiNumberOctave(octaveOffset * NOTES_PER_OCTAVE + chordShift + noteOffset, octaveOffset);
-    const freq = transformMidiNumber(midiNumber);
+    const freq = getFreqFromMidiNumber(midiNumber);
 
     lightUpNote(midiNumber);
 
@@ -66,7 +66,7 @@ export function actionRandom() {
     const noteOffset = sample(chord);
     const chordShift = mySynthState.chordShift;
     const midiNumber = wrapMidiNumberGrid(octaveOffset * NOTES_PER_OCTAVE + chordShift + noteOffset);
-    const freq = transformMidiNumber(midiNumber);
+    const freq = getFreqFromMidiNumber(midiNumber);
 
     lightUpNote(midiNumber);
 
@@ -124,21 +124,64 @@ export function arp(midiNumbers) {
 }
 
 /* Play a note and its corresponding chord when clicking on the grid. 
-Note that this function changes effect based on previous actions. */
+Note that this function changes effect based on previous actions
+that set octaveShift. */
 export function playNote(midiNumber) {
-  for (let chordNote of mySynthState.chord) {
-    const shift = chordNote == mySynthState.chordRoot ? 0 : mySynthState.chordShift;
-    const offsetMidi = wrapMidiNumberGrid(midiNumber + (chordNote - mySynthState.chordRoot) + shift);
+  const chord = mySynthState.chord;
+  /* Do nothing if scale is empty. */
+  if (!chord.length) {
+    return;
+  }
+
+  const rootIdx = chord.indexOf(mySynthState.chordRoot);
+  const octaveShift = mySynthState.octaveShift;
+
+  for (let i = 0; i < chord.length; i++) {
+    const chordNote = chord[i];
+    
+    /* Distance from root. */
+    const rootOffsetIdx = i - rootIdx;
+
+    /* Shift only non-root notes. */
+    const shiftEnabler = i == rootIdx ? 0 : 1;
+
+    const curShift = mySynthState.chordShift * shiftEnabler;
+    
+    let curOctaveShift = null;
+    if (octaveShift !== null) {
+      curOctaveShift = octaveShift * rootOffsetIdx;
+    } else {
+      curOctaveShift = random(0, OCTAVE_RANGE);
+    }
+    curOctaveShift *= shiftEnabler;
+
+    const offsetMidi = wrapMidiNumberGrid(midiNumber + (chordNote - mySynthState.chordRoot) + curShift + curOctaveShift * NOTES_PER_OCTAVE);
     const freq = transformMidiNumber(offsetMidi);
 
     bell(freq);
 
-    if (chordNote == mySynthState.chordRoot) {
-      lightUpRoot(offsetMidi)
+    /* Light up depending on whether the current note is
+    the root (anchor) of the chord. */
+    if (i == rootIdx) {
+      lightUpRoot(offsetMidi);
     } else {
       lightUpNote(offsetMidi);
     }
   }
+
+  // for (let chordNote of mySynthState.chord) {
+  //   const shift = chordNote == mySynthState.chordRoot ? 0 : mySynthState.chordShift;
+  //   const offsetMidi = wrapMidiNumberGrid(midiNumber + (chordNote - mySynthState.chordRoot) + shift);
+  //   const freq = transformMidiNumber(offsetMidi);
+
+  //   bell(freq);
+
+  //   if (chordNote == mySynthState.chordRoot) {
+  //     lightUpRoot(offsetMidi)
+  //   } else {
+  //     lightUpNote(offsetMidi);
+  //   }
+  // }
 }
 
 /* Briefly light up a note on the grid with the given midi number. */
