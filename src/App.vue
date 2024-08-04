@@ -1,4 +1,5 @@
 <template>
+  <TitleContainer />
   <ActionContainer />
   <Divider />
   <ChordContainer />
@@ -20,6 +21,7 @@ import ChordContainer from './components/ChordContainer.vue';
 import ShiftContainer from './components/ShiftContainer.vue';
 import TuningContainer from './components/TuningContainer.vue';
 import CopyrightContainer from './components/CopyrightContainer.vue';
+import TitleContainer from './components/TitleContainer.vue';
 
 export default {
   name: 'App',
@@ -32,6 +34,7 @@ export default {
     NoteContainer,
     TuningContainer,
     CopyrightContainer,
+    TitleContainer,
   },
 };
 </script>
