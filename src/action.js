@@ -3,7 +3,7 @@
  */
 
 import { OCTAVE_START, OCTAVE_END, NOTES_PER_OCTAVE, OCTAVE_RANGE, MAX_TUNING_OFFSET, MIDI_RANGE, MIDI_START, ARP_SPEED } from "./constants";
-import { wrapMidiNumber } from "./helpers"
+import { wrapMidiNumber, transformMidiNumber } from "./helpers"
 import { mySynthState } from "./mySynthState";
 import { bell } from "./myAudioState";
 import { random, sample } from "lodash"
@@ -40,7 +40,7 @@ export function actionFull() {
     const noteOffset = chord[j];
     const chordShift = mySynthState.chordShift;
     const midiNumber = wrapMidiNumber(octaveOffset * NOTES_PER_OCTAVE + chordShift + noteOffset);
-    const freq = mySynthState.transformMidiNumber(midiNumber);
+    const freq = transformMidiNumber(midiNumber);
 
     lightUpNote(midiNumber);
 
@@ -60,7 +60,7 @@ export function actionRandom() {
     const noteOffset = sample(chord);
     const chordShift = mySynthState.chordShift;
     const midiNumber = wrapMidiNumber(octaveOffset * NOTES_PER_OCTAVE + chordShift + noteOffset);
-    const freq = mySynthState.transformMidiNumber(midiNumber);
+    const freq = transformMidiNumber(midiNumber);
 
     lightUpNote(midiNumber);
 
@@ -82,7 +82,7 @@ export function actionUp() {
       const noteOffset = chord[j];
       const chordShift = mySynthState.chordShift;
       const midiNumber = wrapMidiNumber(octaveOffset * NOTES_PER_OCTAVE + chordShift + noteOffset);
-      const freq = mySynthState.transformMidiNumber(midiNumber);
+      const freq = transformMidiNumber(midiNumber);
 
       const timeout = (i * chord.length + j) * ARP_SPEED;
 
@@ -109,7 +109,7 @@ export function actionDown() {
       const noteOffset = chord[j];
       const chordShift = mySynthState.chordShift;
       const midiNumber = wrapMidiNumber(octaveOffset * NOTES_PER_OCTAVE + chordShift + noteOffset);
-      const freq = mySynthState.transformMidiNumber(midiNumber);
+      const freq = transformMidiNumber(midiNumber);
 
       const timeout = ((OCTAVE_RANGE - 1 - i) * chord.length + (chord.length - 1 - j)) * ARP_SPEED;
 
@@ -126,7 +126,7 @@ export function playNote(midiNumber) {
   for (let chordNote of mySynthState.chord) {
     const shift = chordNote == mySynthState.chordRoot ? 0 : mySynthState.chordShift;
     const offsetMidi = wrapMidiNumber(midiNumber + (chordNote - mySynthState.chordRoot) + shift);
-    const freq = mySynthState.transformMidiNumber(offsetMidi);
+    const freq = transformMidiNumber(offsetMidi);
 
     bell(freq);
 
