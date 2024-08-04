@@ -168,20 +168,6 @@ export function playNote(midiNumber) {
       lightUpNote(offsetMidi);
     }
   }
-
-  // for (let chordNote of mySynthState.chord) {
-  //   const shift = chordNote == mySynthState.chordRoot ? 0 : mySynthState.chordShift;
-  //   const offsetMidi = wrapMidiNumberGrid(midiNumber + (chordNote - mySynthState.chordRoot) + shift);
-  //   const freq = transformMidiNumber(offsetMidi);
-
-  //   bell(freq);
-
-  //   if (chordNote == mySynthState.chordRoot) {
-  //     lightUpRoot(offsetMidi)
-  //   } else {
-  //     lightUpNote(offsetMidi);
-  //   }
-  // }
 }
 
 /* Briefly light up a note on the grid with the given midi number. */
