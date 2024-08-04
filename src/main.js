@@ -1,3 +1,7 @@
+/**
+ * Main entry point.
+ */
+
 import { createApp } from 'vue'
 import 'normalize.css'
 import './style.css'

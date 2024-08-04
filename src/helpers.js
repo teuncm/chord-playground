@@ -1,6 +1,11 @@
+/**
+ * Helpers for audio and midi.
+ */
+
 import { NOTES_PER_OCTAVE, MIDI_START, MIDI_RANGE, OCTAVE_START, OCTAVE_END, NOTE_NAME_TABLE, NOTE_OFFSET_NAME_TABLE } from "./constants";
 import { range, map } from "lodash";
 import { MyAudioState } from "./myAudioState";
+import { mySynthState } from "./mySynthState";
 
 /* Set multiple properties on an audio node. */
 export function setNodeProps(node, props) {
@@ -53,6 +58,17 @@ export function getAllMidiNumbers() {
 /* Wrap midi around the grid. */
 export function wrapMidiNumber(midiNumber) {
   return mod(midiNumber - MIDI_START, MIDI_RANGE) + MIDI_START;
+}
+
+export function transformMidiNumber(midiNumber) {
+  const transformedMidiNumber = wrapMidiNumber(midiNumber);
+
+  return this.getFreqFromMidiNumber(transformedMidiNumber);
+}
+
+/* Get oscillator frequency from midi number based on 12-TET system, standard concert pitch and current tuning offset. */
+export function getFreqFromMidiNumber(midiNumber) {
+  return FREQ_A4 * 2**((midiNumber - MIDI_A4 + (mySynthState.tuningOffset / 100)) / NOTES_PER_OCTAVE);
 }
 
 /* Obtain the octave from midi number. */

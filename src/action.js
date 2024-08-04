@@ -1,3 +1,7 @@
+/**
+ * Functions that are triggered by user actions.
+ */
+
 import { OCTAVE_START, OCTAVE_END, NOTES_PER_OCTAVE, OCTAVE_RANGE, MAX_TUNING_OFFSET, MIDI_RANGE, MIDI_START, ARP_SPEED } from "./constants";
 import { wrapMidiNumber } from "./helpers"
 import { mySynthState } from "./mySynthState";

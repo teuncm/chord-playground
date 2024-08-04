@@ -1,3 +1,7 @@
+/**
+ * Constants used throughout the application.
+ */
+
 /*--- Audio constants. ---*/
 /* Seconds */
 export const AUDIO_SCHEDULING_GLOBAL_OFFSET = 0.100;
@@ -5,8 +9,10 @@ export const AUDIO_SCHEDULING_GLOBAL_OFFSET = 0.100;
 /*--- Action constants. ---*/
 export const NOTES_PER_OCTAVE = 12;
 
+/* Adjust these for larger note grid. */
 export const OCTAVE_START = 3;
 export const OCTAVE_END = 9;
+
 export const OCTAVE_RANGE = OCTAVE_END - OCTAVE_START;
 
 export const MIDI_START = OCTAVE_START * NOTES_PER_OCTAVE;
@@ -19,11 +25,11 @@ export const ARP_SPEED = 125;
 export const DELAY_TIME = 0.3;
 
 /*--- Synth constants. ---*/
-/* A4 MIDI number, unitless */
-export const MIDI_A4 = 69;
 
-/* Hz */
+/* Standard concert pitch in Hz */
 export const FREQ_A4 = 440;
+/* Corresponding midi number (unitless). */
+export const MIDI_A4 = 69;
 
 /* Cents */
 export const DEFAULT_TUNING_OFFSET = 0;

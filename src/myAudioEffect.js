@@ -1,3 +1,12 @@
+/**
+ * Classes designed to handle arbitrary AudioNode effect chains while keeping latency at a minimum.
+ * 
+ * Any MyAudioEffectWrapper w or superclass:
+ * - Has its only input node located at w.recursiveIn()
+ * - Has its only output node located at w.recursiveOut()
+ * - Uses as few AudioNode instances as possible to minimize latency
+ */
+
 import { MyAudioState } from "./myAudioState";
 
 export class MyAudioEffectWrapper {
